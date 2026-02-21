@@ -10,3 +10,8 @@ A Google Chrome extension project, which gamifies DSA and algorithm studying usi
 ## Self-Guided Learnings 
 
 ## References
+
+### Integrating React for Google Extensions 
+<ol>
+    <li>https://medium.com/@tharshita13/creating-a-chrome-extension-with-react-a-step-by-step-guide-47fe9bab24a1</li>
+</ol>
