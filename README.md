@@ -14,5 +14,5 @@ As a current post-secondary student, I both love and despise the discounted tran
 
 ### Integrating React for Google Extensions 
 <ol>
-    <li>https://medium.com/@tharshita13/creating-a-chrome-extension-with-react-a-step-by-step-guide-47fe9bab24a1</li>
+    <li>https://medium.com/@5tigerjelly/creating-a-chrome-extension-with-react-and-vite-boilerplate-provided-db3d14473bf6</li>
 </ol>
