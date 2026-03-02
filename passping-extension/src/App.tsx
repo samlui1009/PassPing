@@ -6,18 +6,20 @@ import Header from './components/Header'
 
 function App() {
 
-  const currentMonthNumber = new Date().getMonth() + 1;
+//   TODO:  Check on WHY my former solution wasn't working
+  const currentMonthName = new Date().toLocaleString('en-US', { month: 'long' });
   const currentYear = new Date().getFullYear();
 
-  const fullDate = currentMonthNumber + "/" + currentYear;
+  const fullDate = currentMonthName + " " + currentYear;
 
   return (
     <>
         <div>
             <Header></Header>
             <h1 className="ext-name">PassPing</h1>
-            <p className="tagline">Never miss your monthly U-Pass ever again!</p>
-            <p className="current-month">Currently Loading For: { fullDate }</p>
+            <p className="tagline">Never miss your monthly U-Pass  again!</p>
+            <p className="load-msg">Currently Loading: </p>
+            <p className="full-date">{ fullDate }</p>
             {/* <Icon></Icon> */}
             <Menu></Menu>
         </div>

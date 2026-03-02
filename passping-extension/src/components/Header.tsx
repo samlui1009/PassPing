@@ -1,4 +1,5 @@
 import { MdOutlineSettings } from "react-icons/md";
+import '../stylesheets/Header.css';
 
 function Header() {
 
