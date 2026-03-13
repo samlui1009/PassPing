@@ -1,5 +1,41 @@
 .header-div {
     display: flex;
+    justify-content: space-between;
     gap: 20px;
     padding: 10px;
+}
+
+.header-tagline {
+    font-size: 16px;
+    color: #2a2a2a;
+}
+
+.settings-btn {
+    background-color: #EEF2F7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);  
+    transition: background-color 0.5s ease;
+
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+.settings-btn:focus{
+    outline: none;
+}
+
+.settings-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);  
+    background-color: #E4E9F2;
+}
+
+.settings-icon {
+    vertical-align: middle;
+    margin-right: 10px;
 }

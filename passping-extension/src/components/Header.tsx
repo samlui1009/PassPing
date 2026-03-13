@@ -6,8 +6,8 @@ function Header() {
     return (
       <>
           <div className="header-div">
-            <p>Load your U-Pass!</p>
-            <button><MdOutlineSettings></MdOutlineSettings>Settings</button>
+            <p className="header-tagline">Load your U-Pass!</p>
+            <button className="settings-btn"><MdOutlineSettings className="settings-icon"></MdOutlineSettings>Settings</button>
           </div>
       </>
     )
