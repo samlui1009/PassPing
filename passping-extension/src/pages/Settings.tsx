@@ -1,6 +1,11 @@
 import { IoArrowBackCircle } from "react-icons/io5";
 import { FaSave } from "react-icons/fa";
 
+// Potential integration to be used for the toggle mechanism
+// Refer to AniMori for implementation details
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons'; // Import the toggle icons
+
 import "../stylesheets/Settings.css";
 
 type SettingsProps = {
