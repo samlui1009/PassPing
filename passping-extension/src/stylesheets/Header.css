@@ -26,14 +26,10 @@
     font-size: 14px;
 }
 
-.settings-btn:focus{
-    outline: none;
-}
-
 .settings-btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);  
-    background-color: #E4E9F2;
+    background-color: #e4e9f2a9;
 }
 
 .settings-icon {

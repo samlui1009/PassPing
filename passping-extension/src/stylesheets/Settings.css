@@ -1,0 +1,99 @@
+.settings-header {
+  font-weight: 600;
+  color: #2a2a2a;
+  margin-bottom: 8px;
+}
+
+.divider {
+  height: 4px;
+  background: #afb8c4;
+  margin: 14px 0 18px;
+}
+
+.back-btn {
+  background-color: #eef2f7;
+
+  gap: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  border-radius: 2px;
+  border: 4px solid rgba(238, 242, 247, 0.11);
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.5s ease;
+
+  padding: 6px 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.back-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+  background-color: #e4e9f2d7;
+}
+
+.settings-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #5f8fd8;
+  margin-bottom: 10px;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  gap: 16px;
+}
+
+.save-btn-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  padding: 8px;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.save-settings-btn {
+  background-color: #eef2f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  border-radius: 2px;
+  border: 4px solid rgba(238, 242, 247, 0.11);
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.5s ease;
+
+  width: 300px;
+
+  gap: 8px;
+
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.save-settings-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+  background-color: #e4e9f2a9;
+}
+
+.addnl-notes {
+  font-size: 14px;
+  color: #2a2a2a;
+}
