@@ -28,12 +28,14 @@ function Settings({ goBack }: SettingsProps) {
 
         <form className="settings-form">
           <label htmlFor="reminder-date">Reminder Date:</label>
+
+          {/* Set the minimum bound for the reminder date to be the 15th - Pass opens up on the 15th */}
           <input
             className="form-input"
             type="number"
             id="reminder-date"
             name="reminder-date"
-            min="1"
+            min="15"
             max="31"
             step="1"
           />

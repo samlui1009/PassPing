@@ -25,8 +25,10 @@ function Home( {goToSettings} : HomeProps) {
               <div className="bus-ctn">
                   <img className="logo" src={Icon}></img>
               </div>
-              <p className="load-msg">Currently Loading: </p>
-              <p className="full-date">{ fullDate }</p>
+              <div className="date-ctn">
+                <p className="load-msg">Currently Loading: </p>
+                <p className="full-date">{ fullDate }</p>
+              </div>
               <Menu></Menu>
           </div>
       </>

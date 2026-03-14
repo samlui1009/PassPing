@@ -10,6 +10,9 @@ import "../stylesheets/Menu.css";
 function Menu() {
   // Starting state for now is that the U-Pass is NOT loaded
   const [isLoaded, setIsLoaded] = useState(false);
+ 
+  // Starting state for the "Remind Me Later" button is that it is NOT snoozed 
+  const [isSnoozed, setIsSnoozed] = useState(false);
 
   // Key format: "YYYY-MM", e.g. "2024-09" for September 2024
   const currentMonthKey = `${new Date().getFullYear()}-${String(
@@ -40,18 +43,18 @@ function Menu() {
         {!isLoaded && (
           <>
             <FaRegCircleXmark className="icon"></FaRegCircleXmark>
-            Not Loaded
+            <span>Not Loaded</span>
           </>
         )}
         {isLoaded && (
           <>
             <IoCheckmarkDoneCircleSharp className="icon"></IoCheckmarkDoneCircleSharp>
-            Loaded
+            <span>Loaded</span>
           </>
         )}
       </div>
       <div className="menu-div">
-        <button className="mark-loaded-btn" onClick={handleMarkAsLoaded}>
+        <button className="mark-loaded-btn" onClick={handleMarkAsLoaded} disabled={isLoaded}>
           <div className="icon-div">
             <IoMdCheckmarkCircle className="icon"></IoMdCheckmarkCircle>
           </div>
