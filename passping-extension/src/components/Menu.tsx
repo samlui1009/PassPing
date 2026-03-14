@@ -1,5 +1,8 @@
+// import { useEffect, useState } from 'react';
+
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { FaBell, FaExternalLinkAlt } from "react-icons/fa";
+import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 
 import "../stylesheets/Menu.css";
 
@@ -10,8 +13,9 @@ function Menu() {
 
   return (
     <>
+      <div className="status-div"><IoCheckmarkDoneCircleSharp className="icon"></IoCheckmarkDoneCircleSharp>Loaded</div>
       <div className="menu-div">
-        <button className="menu-btn">
+        <button className="mark-loaded-btn">
           <div className="icon-div">
             <IoMdCheckmarkCircle className="icon"></IoMdCheckmarkCircle>
           </div>
@@ -26,7 +30,7 @@ function Menu() {
           <FaExternalLinkAlt className="icon"></FaExternalLinkAlt>Open U-Pass
           Website
         </button>
-        <button className="menu-btn">
+        <button className="snooze-btn">
           <FaBell className="icon"></FaBell>Remind Me Later
         </button>
       </div>

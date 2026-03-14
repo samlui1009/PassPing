@@ -7,12 +7,21 @@
   padding: 10px;
 }
 
+.status-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
 .icon {
   width: 24px;
   height: 24px;
   padding: 8px;
-  background: #e8f1ff;
-  border-radius: 50%;
+  background: none;
+  /* background: #e8f1ff;
+  border-radius: 50%; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,6 +35,34 @@
     flex-shrink: 0;
 }
 
+.mark-loaded-btn {
+    display: flex;
+    text-align: left;
+    line-height: 1.2;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    width: 300px;
+    background-color: #2fd76df9;
+    border-radius: 2px;
+    border: 4px solid rgba(62, 195, 95, 0.423);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    transition: background-color 0.5s ease;  
+}
+
+.mark-loaded-btn:focus {
+    outline: none;
+}
+
+.mark-loaded-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+    background-color: #20985e;  
+}
+
 .menu-btn {
   display: flex;
   text-align: left;
@@ -33,14 +70,44 @@
   justify-content: flex-start;
   align-items: center;
   gap: 16px;
-  width: 200px;
+  width: 300px;
   background-color: #89c2fa;
-  border-radius: 8px;
+  border-radius: 2px;
+  border: 4px solid rgba(115, 129, 142, 0.423);
   font-size: 16px;
   cursor: pointer;
   padding: 10px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
   transition: background-color 0.5s ease;
+}
+
+.snooze-btn {
+    display: flex;
+    text-align: left;
+    line-height: 1.2;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    width: 300px;
+    background-color: #3a3f45;
+    color: #fff;
+    border-radius: 2px;
+    border: 4px solid rgba(28, 27, 27, 0.423);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    transition: background-color 0.5s ease;
+}
+
+.snooze-btn:focus {
+    outline: none;
+}
+
+.snooze-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+    background-color: #070b11;  
 }
 
 .menu-btn:focus {

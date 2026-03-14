@@ -1,10 +1,14 @@
 import { IoArrowBackCircle } from "react-icons/io5";
 
-function Settings() {
+type SettingsProps = {
+    goBack: () => void;
+}
+
+function Settings( {goBack} : SettingsProps) {
   return (
     <>
       <div>
-        <button className="back-btn">
+        <button className="back-btn" onClick={goBack}>
           <IoArrowBackCircle className="back-icon"></IoArrowBackCircle>
         </button>
         <h1>Settings</h1>
