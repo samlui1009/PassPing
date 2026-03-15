@@ -1,9 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
 
 #root {
-  /* max-width: 1280px; */
-  width: 380px;
-  min-height: 520px;
+  width: 450px;
+  min-height: 550px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;

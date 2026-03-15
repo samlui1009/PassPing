@@ -1,7 +1,7 @@
+import { useState, useEffect } from "react";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { FaSave } from "react-icons/fa";
 
-// Potential integration to be used for the toggle mechanism
 // Refer to AniMori for implementation details
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons'; // Import the toggle icons
@@ -12,7 +12,50 @@ type SettingsProps = {
   goBack: () => void;
 };
 
+type StoredSettings = {
+  reminderDate?: number;
+  reminderTime?: string;
+  nagEnabled?: boolean;
+};
+
 function Settings({ goBack }: SettingsProps) {
+  const [reminderDate, setReminderDate] = useState<number>(15); // Default to the 15th
+  const [reminderTime, setReminderTime] = useState<string>("09:00"); // Default to 9 AM
+  const [nagUntilCompleted, setNagUntilCompleted] = useState<boolean>(false); // Default to not nagging
+
+  const [savedVisible, setSavedVisible] = useState<boolean>(false);
+
+  const toggleSavedVisibility = () => {
+    setSavedVisible(true);
+  };
+
+  useEffect(() => {
+    chrome.storage.sync.get(
+      ["reminderDate", "reminderTime", "nagEnabled"],
+      (data: StoredSettings) => {
+        setReminderDate(data.reminderDate ?? 15);
+        setReminderTime(data.reminderTime ?? "09:00");
+        setNagUntilCompleted(data.nagEnabled ?? false);
+      }
+    );
+  }, []);
+
+  const saveSettings = (e: React.SubmitEvent) => {
+    e.preventDefault();
+
+    chrome.storage.sync.set({
+      reminderDate,
+      reminderTime,
+      setNagUntilCompleted,
+    });
+
+    console.log("Settings saved:", {
+      reminderDate,
+      reminderTime,
+      setNagUntilCompleted,
+    });
+  };
+
   return (
     <>
       <div>
@@ -26,7 +69,7 @@ function Settings({ goBack }: SettingsProps) {
         <div className="divider"></div>
         <h1 className="settings-title">Settings</h1>
 
-        <form className="settings-form">
+        <form className="settings-form" onSubmit={saveSettings}>
           <label htmlFor="reminder-date">Reminder Date:</label>
 
           {/* Set the minimum bound for the reminder date to be the 15th - Pass opens up on the 15th */}
@@ -38,10 +81,12 @@ function Settings({ goBack }: SettingsProps) {
             min="15"
             max="31"
             step="1"
+            value={reminderDate}
+            onChange={(e) => setReminderDate(parseInt(e.target.value))}
           />
           <p className="addnl-notes">
-            <b>NOTE:</b> Reminders will start on the set date for each month if
-            your pass isn't loaded.
+            <b>NOTE:</b> Reminders will start on your set date for each month if
+            your pass isn't loaded. The default setting is the 15th.
           </p>
           <label htmlFor="time">Reminder Time:</label>
           <input
@@ -51,20 +96,38 @@ function Settings({ goBack }: SettingsProps) {
             name="reminder-time"
             min="00:00"
             max="23:59"
+            value={reminderTime}
+            onChange={(e) => setReminderTime(e.target.value)}
           />
           <label htmlFor="nag-toggle">Nag Until Completed:</label>
-          <input type="checkbox" id="nag-toggle" name="nag-toggle" />
+          <input
+            type="checkbox"
+            id="nag-toggle"
+            name="nag-toggle"
+            checked={nagUntilCompleted}
+            onChange={(e) => setNagUntilCompleted(e.target.checked)}
+          />
           <p className="addnl-notes">
             <b>NOTE:</b> If enabled, you will receive pop-up reminders every day
             until your pass is loaded.
           </p>
           <div className="save-btn-div">
-            <button type="submit" className="save-settings-btn">
+            <button
+              type="submit"
+              className="save-settings-btn"
+              onClick={toggleSavedVisibility}
+            >
               <FaSave className="icon"></FaSave>
               Save Your Settings
             </button>
           </div>
         </form>
+
+        {savedVisible && (
+          <div>
+            <h4 className="saved-message">Settings Saved!</h4>
+          </div>
+        )}
       </div>
     </>
   );

@@ -12,7 +12,7 @@ function Menu() {
   const [isLoaded, setIsLoaded] = useState(false);
  
   // Starting state for the "Remind Me Later" button is that it is NOT snoozed 
-  const [isSnoozed, setIsSnoozed] = useState(false);
+//   const [isSnoozed, setIsSnoozed] = useState(false);
 
   // Key format: "YYYY-MM", e.g. "2024-09" for September 2024
   const currentMonthKey = `${new Date().getFullYear()}-${String(

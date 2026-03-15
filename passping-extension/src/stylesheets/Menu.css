@@ -50,7 +50,7 @@
   align-items: center;
   gap: 16px;
   width: 300px;
-  background-color: #2fd76df9;
+  background-color: #a9d8b8;
   border-radius: 2px;
   border: 4px solid rgba(62, 195, 95, 0.423);
   font-size: 16px;
@@ -60,14 +60,17 @@
   transition: background-color 0.5s ease;
 }
 
-.mark-loaded-btn:focus {
-  outline: none;
-}
-
 .mark-loaded-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
-  background-color: #20985e;
+  background-color: #2fbd78;
+}
+
+.mark-loaded-btn[disabled] {
+    background-color: #7ad196e8;
+    border-color: rgba(62, 195, 95, 0.123);
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 .menu-btn {
