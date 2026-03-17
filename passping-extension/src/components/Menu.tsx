@@ -70,7 +70,7 @@ function Menu() {
           Website
         </button>
         <button className="snooze-btn">
-          <FaBell className="icon"></FaBell>Remind Me Later
+          <FaBell className="icon"></FaBell>Snooze Until Tomorrow
         </button>
       </div>
     </>

@@ -21,7 +21,6 @@ type StoredSettings = {
 function Settings({ goBack }: SettingsProps) {
   const [reminderDate, setReminderDate] = useState<number>(15); // Default to the 15th
   const [reminderTime, setReminderTime] = useState<string>("09:00"); // Default to 9 AM
-  const [nagUntilCompleted, setNagUntilCompleted] = useState<boolean>(false); // Default to not nagging
 
   const [savedVisible, setSavedVisible] = useState<boolean>(false);
 
@@ -35,7 +34,6 @@ function Settings({ goBack }: SettingsProps) {
       (data: StoredSettings) => {
         setReminderDate(data.reminderDate ?? 15);
         setReminderTime(data.reminderTime ?? "09:00");
-        setNagUntilCompleted(data.nagEnabled ?? false);
       }
     );
   }, []);
@@ -46,13 +44,11 @@ function Settings({ goBack }: SettingsProps) {
     chrome.storage.sync.set({
       reminderDate,
       reminderTime,
-      setNagUntilCompleted,
     });
 
     console.log("Settings saved:", {
       reminderDate,
       reminderTime,
-      setNagUntilCompleted,
     });
   };
 
@@ -99,17 +95,9 @@ function Settings({ goBack }: SettingsProps) {
             value={reminderTime}
             onChange={(e) => setReminderTime(e.target.value)}
           />
-          <label htmlFor="nag-toggle">Nag Until Completed:</label>
-          <input
-            type="checkbox"
-            id="nag-toggle"
-            name="nag-toggle"
-            checked={nagUntilCompleted}
-            onChange={(e) => setNagUntilCompleted(e.target.checked)}
-          />
           <p className="addnl-notes">
-            <b>NOTE:</b> If enabled, you will receive pop-up reminders every day
-            until your pass is loaded.
+            <b>NOTE:</b> Set the time of day you'd like to receive reminders. The
+            default setting is 9 AM.
           </p>
           <div className="save-btn-div">
             <button
@@ -124,8 +112,8 @@ function Settings({ goBack }: SettingsProps) {
         </form>
 
         {savedVisible && (
-          <div>
-            <h4 className="saved-message">Settings Saved!</h4>
+          <div className="saved-msg-div">
+            <h3 className="saved-message">Settings Saved!</h3>
           </div>
         )}
       </div>
