@@ -15,22 +15,25 @@ type SettingsProps = {
 type StoredSettings = {
   reminderDate?: number;
   reminderTime?: string;
-  nagEnabled?: boolean;
 };
 
 function Settings({ goBack }: SettingsProps) {
   const [reminderDate, setReminderDate] = useState<number>(15); // Default to the 15th
   const [reminderTime, setReminderTime] = useState<string>("09:00"); // Default to 9 AM
 
+//   Permits the user to set the name of their school, which will be used in the reminder message.
+//   const [schoolName, setSchoolName] = useState<string>("");
+
   const [savedVisible, setSavedVisible] = useState<boolean>(false);
 
+  // Show whether clicking Save Settings will also show the Settings Saved! delivery message
   const toggleSavedVisibility = () => {
     setSavedVisible(true);
   };
 
   useEffect(() => {
     chrome.storage.sync.get(
-      ["reminderDate", "reminderTime", "nagEnabled"],
+      ["reminderDate", "reminderTime"],
       (data: StoredSettings) => {
         setReminderDate(data.reminderDate ?? 15);
         setReminderTime(data.reminderTime ?? "09:00");

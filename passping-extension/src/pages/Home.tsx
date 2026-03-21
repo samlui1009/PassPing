@@ -32,13 +32,7 @@ function Home({ goToSettings }: HomeProps) {
           <p className="full-date">{fullDate}</p>
         </div>
         <Menu></Menu>
-        <button
-          onClick={() => {
-            chrome.runtime.sendMessage({ type: "TEST_NOTIFICATION" });
-          }}
-        >
-          Test Notification
-        </button>
+
       </div>
     </>
   );

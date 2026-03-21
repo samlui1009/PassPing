@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { FaBell, FaExternalLinkAlt } from "react-icons/fa";
@@ -12,21 +12,30 @@ function Menu() {
   const [isLoaded, setIsLoaded] = useState(false);
  
   // Starting state for the "Remind Me Later" button is that it is NOT snoozed 
-//   const [isSnoozed, setIsSnoozed] = useState(false);
+  // const [isSnoozed, setIsSnoozed] = useState(false);
 
   // Key format: "YYYY-MM", e.g. "2024-09" for September 2024
   const currentMonthKey = `${new Date().getFullYear()}-${String(
     new Date().getMonth() + 1
   ).padStart(2, "0")}`;
 
-  useEffect(() => {
-    const savedMonth = localStorage.getItem("loadedMonth");
-    if (savedMonth === currentMonthKey) {
+  // We need the date to determine if snooze should still be active   
+  // const currentDate = new Date();
+
+  chrome.storage.sync.get(["loadedMonth", "snoozedUntil"], (data) => {
+    if (data.loadedMonth === currentMonthKey) {
       setIsLoaded(true);
     } else {
       setIsLoaded(false);
     }
-  }, [currentMonthKey]);
+
+    // TODO: How do we handle this logic? 
+    // if (data.snoozedUntil) {
+    //     setIsSnoozed(true);
+    // } else {
+    //     setIsSnoozed(false);
+    // }
+  });
 
   const handleMarkAsLoaded = () => {
     localStorage.setItem("loadedMonth", currentMonthKey);
