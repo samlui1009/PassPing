@@ -21,8 +21,8 @@ function Settings({ goBack }: SettingsProps) {
   const [reminderDate, setReminderDate] = useState<number>(15); // Default to the 15th
   const [reminderTime, setReminderTime] = useState<string>("09:00"); // Default to 9 AM
 
-//   Permits the user to set the name of their school, which will be used in the reminder message.
-//   const [schoolName, setSchoolName] = useState<string>("");
+  //   Permits the user to set the name of their school, which will be used in the reminder message.
+  //   const [schoolName, setSchoolName] = useState<string>("");
 
   const [savedVisible, setSavedVisible] = useState<boolean>(false);
 
@@ -99,8 +99,8 @@ function Settings({ goBack }: SettingsProps) {
             onChange={(e) => setReminderTime(e.target.value)}
           />
           <p className="addnl-notes">
-            <b>NOTE:</b> Set the time of day you'd like to receive reminders. The
-            default setting is 9 AM.
+            <b>NOTE:</b> Set the time of day you'd like to receive reminders.
+            The default setting is 9 AM.
           </p>
           <div className="save-btn-div">
             <button

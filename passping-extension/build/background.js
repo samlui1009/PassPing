@@ -35,72 +35,76 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
         // Check 2: Is it the right time yet?
 
-        const currentHour = now.getHours();
+        const currentHourAsString = now.toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: false // Set to true for 12-hour format with AM/PM
+        });
 
-        console.log("Current hour:", currentHour);
-        console.log("Reminder hour:", reminderHour);
+        console.log("Current hour:", currentHourAsString);
+        console.log("Reminder time:", reminderTime);
 
-        if (currentHour < reminderTime) {
+        if (currentHourAsString < reminderTime) {
             console.log("Too early in the day. Do nothing.");
             return;
         }
 
         console.log("Time condition met — ready for next checks!");
         
-        // Check 3: Is the current month already loaded?
+        // Check 3a: Is the current month already loaded?
+        // Requires another Check 3b: Is our target month loaded?
 
-        const [, currentMonth] = [now.getMonth() + 1]; // getMonth() returns 0-11, so we add 1
+        const targetDate = today < reminderDate ? new Date(now.getFullYear(), now.getMonth(), 1) : new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+        const targetMonthKey = `${targetDate.getFullYear()}-${String(
+            targetDate.getMonth() + 1
+          ).padStart(2, "0")}`;
+  
         const loadedMonth = data.loadedMonth;
 
-        console.log("Current month:", currentMonth);
+        console.log("Target month key:", targetMonthKey);
+        console.log("Loaded month key:", loadedMonth);
 
-        if (currentMonth === loadedMonth) {
-            console.log("Current month already loaded. Do nothing.");
+        if (loadedMonth === targetMonthKey) {
+            console.log(
+              "The target month has already been loaded. No action required."
+            );
             return;
-        }
+          }
+
+          console.log("Target month not loaded yet.");
+          console.log("All conditions satisfied! Triggering the notification now!");
+  
+          triggerReloadNotification();
 
         // THIS IS A TODO AFTER WE FIGURE OUT THE LOGIC
         // Check 4: Did the user click "Snooze/Remind Me Later" on the notification? If so, we should wait until the next alarm to check again.
-
-        // If ALL checks have passed, then we print out a console log message and send a message to the content script to trigger the notification.
-        console.log("All conditions satisfied! Triggering the notificiation now!");
-
-        chrome.runtime.sendMessage({ action: "triggerNotification" });
       });
     }
   });
 
-// This is the notification that should get fired when the alarm goes off. It will alert users to reload their U-Pass for the next month.
-chrome.runtime.onMessage.addListener((message) => {
+// So far, the above code is passing the date and time checks
+// Without Phase 4 (Snooze button implementation), notifications are getting fired appropriately!
 
-  if (message.action !== "triggerNotification") {
-    console.log("Received message with unrecognized action:", message.action);
-    return;
-  } else {
-        try {
-            chrome.notifications.create(
-            "pass-reload-notification",
-            {
-                type: "basic",
-                iconUrl: "icons/bus_notification.png",
-                title: "U-Pass Reload Notification",
-                message: "It's time for you to load next month's U-Pass!",
-                priority: 2,
-                requireInteraction: true,
-                silent: false,
-            },
-            (notificationId) => {
-                console.log("Notification callback fired:", notificationId);
-    
-                if (chrome.runtime.lastError) {
-                  console.error(
-                  "Notification error:",
-                  chrome.runtime.lastError.message
-                );
-            }
-          }
-        );
-    } catch (error) {
-        console.error("Error creating notification:", error);
-    }
-}});
+// Helper function - Creates the Reload U-Pass notification that should be fired once all conditionals are met.
+function triggerReloadNotification() {
+    chrome.notifications.create(
+      "pass-reload-notification",
+      {
+        type: "basic",
+        iconUrl: "icons/bus_notification.png",
+        title: "U-Pass Reload Notification",
+        message: "Time to load next months' U-Pass!",
+        priority: 2,
+        requireInteraction: true,
+        silent: false,
+      },
+      (notificationId) => {
+        console.log("Notification callback fired:", notificationId);
+  
+        if (chrome.runtime.lastError) {
+          console.error("Notification error:", chrome.runtime.lastError.message);
+        }
+      }
+    );
+  }

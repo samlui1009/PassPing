@@ -51,6 +51,17 @@
 .date-ctn {
     display: flex;
     flex-direction: column;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.date-divider-ctn {
+    display: flex;
+    justify-content: space-between;
+    columns: 2;
+    align-items: center;
+    margin: 8px;
+    padding: 8px;
 }
 
 .load-msg {
