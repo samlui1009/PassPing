@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { FaBell, FaExternalLinkAlt } from "react-icons/fa";
@@ -8,60 +8,47 @@ import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import "../stylesheets/Menu.css";
 
 function Menu() {
-  // Starting state for now is that the U-Pass is NOT loaded
+  // Starting state for now is that pending U-Pass is NOT loaded
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Starting state for the "Remind Me Later" button is that it is NOT snoozed
   // const [isSnoozed, setIsSnoozed] = useState(false);
 
-  // Include state for is NEXT MONTH loaded?
-  // const [isNextMonthLoaded, setIsNextMonthLoaded] = useState(false);
+  const now = new Date();
 
-  //  This should give back as an example: 4 for April
-  const desiredMonthKey = new Date().toLocaleString("en-US", {
-    month: "2-digit",
-  });
-  //  Verify this by printing directly to console.log to confirm it
-  console.log(desiredMonthKey);
+  // Convert this as a STRING - This is for the target MONTH check   
+  const targetMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const targetMonthAsString = `${String(targetMonth.getMonth() + 1).padStart(2, "0")}-${targetMonth.getFullYear()}`; 
 
-  // We need the date to determine if snooze should still be active
-  // const currentDate = new Date();
-
-  chrome.storage.sync.get(["loadedMonth", "snoozedUntil"], (data) => {
-    console.log("Data from storage:", data.loadedMonth);
-    if (data.loadedMonth === desiredMonthKey) {
-      setIsLoaded(true);
-    } else {
-      setIsLoaded(false);
-    }
-
-    // TODO: How do we handle this logic?
-    // if (data.snoozedUntil) {
-    //     setIsSnoozed(true);
-    // } else {
-    //     setIsSnoozed(false);
-    // }
-  });
+  useEffect(() => {
+    chrome.storage.sync.get(["loadedMonth"], (data) => {
+      if (data.loadedMonth === targetMonthAsString) {
+        setIsLoaded(true);
+      } else {
+        setIsLoaded(false);
+      }
+    });
+  }, [targetMonthAsString]);
 
   const handleMarkAsLoaded = () => {
-    // We shouldn't be using localStorage here - We need to use the Chrome settings
-    // localStorage.setItem("loadedMonth", desiredMonthKey);
-
-    chrome.storage.sync.set({ loadedMonth: desiredMonthKey }, () => {
-      console.log("Loaded month saved:", desiredMonthKey);
+    chrome.storage.sync.set({ loadedMonth: targetMonthAsString }, () => {
+      console.log("Loaded month saved");
+      setIsLoaded(true);
     });
-    setIsLoaded(true);
   };
+
+
+//   const handleMarkAsSnoozed = () => {
+
+//   }
 
   const handleClickToUpassWebsite = (url: string | URL | undefined) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  // TODO: This component needs to have Status bars for the current month, as well as for next month
   return (
     <>
       <div>
-
         <div className="status-div">
           {!isLoaded && (
             <>
@@ -98,9 +85,14 @@ function Menu() {
           <FaExternalLinkAlt className="icon"></FaExternalLinkAlt>Open U-Pass
           Website
         </button>
-        <button className="snooze-btn">
-          <FaBell className="icon"></FaBell>Snooze Until Tomorrow
-        </button>
+
+        {/* We need to fix this up ;_; */}
+        <div>
+            <button className="snooze-btn">
+            <FaBell className="icon"></FaBell>Snooze Until Tomorrow
+            </button>
+        </div>
+
       </div>
     </>
   );

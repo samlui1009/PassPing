@@ -10,19 +10,22 @@ type HomeProps = {
 
 function Home({ goToSettings }: HomeProps) {
 
+  // For UI    
   // Displays the current month and year in the format "Month Year", e.g. "September 2024", which will be displayed on the homepage
   const currentMonthName = new Date().toLocaleString("en-US", {
     month: "long",
   });
   const currentYear = new Date().getFullYear();
-  const fullDate = currentMonthName + " " + currentYear;
 
+  // For UI    
   // Displays the next month and year in the format "Month Year", e.g. "October 2024", which will be used to determine if the U-Pass for the next month has been loaded   
   const nextMonthDate = new Date();
   nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
   const nextMonthName = nextMonthDate.toLocaleString("en-US", {
     month: "long",
   });
+
+  const currentMonth = currentMonthName + " " + currentYear;
   const nextMonth = nextMonthName + " " + currentYear;
 
   return (
@@ -37,12 +40,12 @@ function Home({ goToSettings }: HomeProps) {
         </div>
         <div className="date-divider-ctn">
             <div className="date-ctn">
-                <span className="load-msg">Active Pass: </span>
-                <span className="full-date">{fullDate}</span> 
+                <span className="load-msg">Pass In Use: </span>
+                <span className="full-date">{currentMonth}</span> 
             </div>
             <div className="date-ctn">
-                <span className="load-msg">Pending Pass: </span>
-                <span className="full-date">{nextMonth}</span>
+                <span className="load-msg">Next Months' Pass: </span>
+                <span className="next-date">{nextMonth}</span>
             </div>
         </div>
         <Menu></Menu>

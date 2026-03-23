@@ -25,41 +25,43 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         console.log("Current day:", today);
         console.log("Reminder day:", reminderDate);
   
+        // Check 0: Is the current date LESS than the 15th? If so, do nothing and break here. We can't proceed as next months' pass isn't valid yet. 
+        if (today < 15) {
+            console.log("Next months' U-Pass is not available yet. Do nothing.");
+            return;
+        }
+
         // Check 1: Is it the right date yet?
         if (today < reminderDate) {
-          console.log("Too early in the month. Do nothing.");
+          console.log("It is not yet the users' set reminder date. Do nothing.");
           return;
         }
    
         console.log("Date condition met — ready for next checks!");
 
         // Check 2: Is it the right time yet?
-
-        const currentHourAsString = now.toLocaleTimeString('en-US', { 
+        const currentTime = now.toLocaleTimeString('en-US', { 
             hour: '2-digit', 
             minute: '2-digit',
             hour12: false // Set to true for 12-hour format with AM/PM
         });
 
-        console.log("Current hour:", currentHourAsString);
+        console.log("Current time:", currentTime);
         console.log("Reminder time:", reminderTime);
 
-        if (currentHourAsString < reminderTime) {
-            console.log("Too early in the day. Do nothing.");
+        if (currentTime < reminderTime) {
+            console.log("It is not yet the users' set time for reewal notifications. Do nothing.");
             return;
         }
 
         console.log("Time condition met — ready for next checks!");
-        
-        // Check 3a: Is the current month already loaded?
-        // Requires another Check 3b: Is our target month loaded?
 
-        const targetDate = today < reminderDate ? new Date(now.getFullYear(), now.getMonth(), 1) : new Date(now.getFullYear(), now.getMonth() + 1, 1);
+        // Simpler check implemented here
+        // Check 3a: Is next months' pass already loaded?
 
-        const targetMonthKey = `${targetDate.getFullYear()}-${String(
-            targetDate.getMonth() + 1
-          ).padStart(2, "0")}`;
-  
+        // Determine the target month based on the current date and the user's specified reminder date.
+        const targetDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+        const targetMonthKey = `${String(targetDate.getMonth() + 1).padStart(2, "0")}-${targetDate.getFullYear()}`;
         const loadedMonth = data.loadedMonth;
 
         console.log("Target month key:", targetMonthKey);
@@ -67,18 +69,18 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
         if (loadedMonth === targetMonthKey) {
             console.log(
-              "The target month has already been loaded. No action required."
-            );
+              "The target month has already been loaded. No action required.");
             return;
           }
 
           console.log("Target month not loaded yet.");
+
+        // THIS IS A TODO AFTER WE FIGURE OUT THE LOGIC
+        // Check 4: Did the user click "Snooze/Remind Me Later" on the notification? If so, we should wait 24 hours later before firing the notification again.
+
           console.log("All conditions satisfied! Triggering the notification now!");
   
           triggerReloadNotification();
-
-        // THIS IS A TODO AFTER WE FIGURE OUT THE LOGIC
-        // Check 4: Did the user click "Snooze/Remind Me Later" on the notification? If so, we should wait until the next alarm to check again.
       });
     }
   });
@@ -87,6 +89,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 // Without Phase 4 (Snooze button implementation), notifications are getting fired appropriately!
 
 // Helper function - Creates the Reload U-Pass notification that should be fired once all conditionals are met.
+// Notification is working fine and is displaying exactly what we need.
 function triggerReloadNotification() {
     chrome.notifications.create(
       "pass-reload-notification",
