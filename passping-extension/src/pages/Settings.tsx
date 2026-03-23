@@ -81,7 +81,7 @@ function Settings({ goBack }: SettingsProps) {
           />
           <p className="addnl-notes">
             <b>NOTE:</b> Reminders will start on your set date for each month if
-            your pass isn't loaded. The default setting is the 15th.
+            your pass isn't loaded. The default setting is the 15th as pass reloads are only available from that point onward.
           </p>
           <label htmlFor="time">Reminder Time:</label>
           <input
