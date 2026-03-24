@@ -8,6 +8,14 @@
 .header-tagline {
     font-size: 16px;
     color: #2a2a2a;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.header-logo {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
 }
 
 .settings-btn {
@@ -34,5 +42,7 @@
 
 .settings-icon {
     vertical-align: middle;
+    width: 20px;
+    height: 20px;    
     margin-right: 10px;
 }
