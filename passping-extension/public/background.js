@@ -20,7 +20,6 @@ chrome.alarms.onAlarm.addListener((alarm) => {
       (data) => {
         const reminderDate = data.reminderDate;
         const reminderTime = data.reminderTime;
-        const snoozedUntil = data.snoozedUntil;
 
         const now = new Date();
         const today = now.getDate();
@@ -63,6 +62,19 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
         console.log("Time condition met — ready for next checks!");
 
+        console.log("Today's date:", now);
+        console.log(
+          "Tomorrow's date for snooze comparison:",
+          data.snoozedUntil
+        );
+
+        if (data.snoozedUntil) {
+          console.log(
+            "Notification is snoozed until a future date. Do nothing."
+          );
+          return;
+        }
+
         // Simpler check implemented here
         // Check 3a: Is next months' pass already loaded?
 
@@ -91,24 +103,10 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         // THIS IS A TODO AFTER WE FIGURE OUT THE LOGIC
         // Check 4: Did the user click "Snooze/Remind Me Later" on the notification? If so, we should wait 24 hours later before firing the notification again.
 
-        console.log("Today's date:", now);
-        console.log(
-          "Tomorrow's date for snooze comparison:",
-          data.snoozedUntil
-        );
-
-        if (now < data.snoozedUntil) {
-          console.log(
-            "Notification is snoozed until a future date. Do nothing."
-          );
-          return;
-        }
-        console.log(
-          "Snooze period has passed. Ready to trigger notification if all other conditions are met!"
-        );
         console.log(
           "All conditions satisfied! Triggering the notification now!"
         );
+
         triggerReloadNotification();
       }
     );

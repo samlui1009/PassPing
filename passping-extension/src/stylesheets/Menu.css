@@ -120,6 +120,15 @@
   background-color: #070b11;
 }
 
+
+.snooze-btn[disabled] {
+    background-color: #323334e8;
+    opacity: 0.75;
+    border-color: rgba(18, 18, 18, 0.123);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
 .menu-btn:focus {
   outline: none;
 }

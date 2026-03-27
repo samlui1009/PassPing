@@ -8,30 +8,30 @@ import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import "../stylesheets/Menu.css";
 
 function Menu() {
+  const now = new Date();
+
   // Starting state for now is that pending U-Pass is NOT loaded
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Starting state for the "Remind Me Later" button is that it is NOT snoozed
   const [isSnoozed, setIsSnoozed] = useState(false);
 
-  const now = new Date();
-
-  // We have TODAY'S date
+  // We have TODAY'S date, in the preferred format that we want
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-  // Convert this as a STRING - This is for the target MONTH check
-  const targetMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-  const targetMonthAsString = `${String(targetMonth.getMonth() + 1).padStart(
-    2,
-    "0"
-  )}-${targetMonth.getFullYear()}`;
-
   // We also have TOMORROW'S date
   const nextDay = new Date(
     now.getFullYear(),
     now.getMonth(),
     now.getDate() + 1
   );
+
+  // This is for detecting the TARGET MONTH
+  // Convert this as a STRING - This is for the target MONTH check
+  const targetMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const targetMonthAsString = `${String(targetMonth.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${targetMonth.getFullYear()}`;
 
   useEffect(() => {
     chrome.storage.sync.get(["loadedMonth", "snoozedUntil"], (data) => {
@@ -41,7 +41,9 @@ function Menu() {
         setIsLoaded(false);
       }
 
+      // First, check if it is a String  
       if (typeof data.snoozedUntil === "string") {
+        // Then, convert it into a Date object
         const snoozedUntil = new Date(data.snoozedUntil);
         if (today < snoozedUntil) {
           setIsSnoozed(true);
@@ -51,7 +53,7 @@ function Menu() {
         }
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetMonthAsString]);
 
   const handleMarkAsLoaded = () => {
@@ -61,22 +63,29 @@ function Menu() {
     });
   };
 
-  // Persistence is achieved now - snoozedUntil is now in the same format as today  
+  // Persistence is achieved now - snoozedUntil is now in the same format as today
   const handleSnoozeUntil = () => {
-      if (!isLoaded && !isSnoozed) {
-        console.log("Snoozed until tomorrow");
+    if (!isLoaded && !isSnoozed) {
+      console.log("Snoozed until tomorrow");
+      chrome.storage.sync.set({ snoozedUntil : nextDay.toString(),
+       }, () => {
         setIsSnoozed(true);
-      } else if (!isLoaded && isSnoozed) {
-        console.log("Already snoozed until tomorrow.");
-      } 
-        chrome.storage.sync.set({ snoozedUntil: nextDay.toString() }, () => {
-            console.log("Snoozed until tomorrow : ", nextDay.toString());
-        setIsSnoozed(true);
-    });
+      });
+    } else if (isLoaded || isSnoozed) {
+      console.log("Already snoozed until tomorrow or pass is already loaded.");
+    }
   };
 
   const handleClickToUpassWebsite = (url: string | URL | undefined) => {
     window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleDisableSnoozedButtonState = () => {
+    if (isLoaded || isSnoozed) {
+      return true; // Disable if loaded
+    } else {
+      return false; // Enable otherwise
+    }
   };
 
   return (
@@ -120,11 +129,11 @@ function Menu() {
         </button>
 
         <div>
-          <button 
+          <button
             className="snooze-btn"
             onClick={handleSnoozeUntil}
-            disabled={isSnoozed}
-            >
+            disabled={handleDisableSnoozedButtonState()}
+          >
             <FaBell className="icon"></FaBell>Snooze Until Tomorrow
           </button>
         </div>
