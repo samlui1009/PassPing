@@ -5,7 +5,13 @@
   "description": "Never miss your monthly U-Pass ever again! PassPing is a Chrome extension that sends you a notification on the first day of each month to remind you to upload your U-Pass.",
   "action": {
     "default_popup": "index.html",
-    "default_title": "PassPing Reminder"
+    "default_title": "PassPing Reminder",
+    "default_icon": {
+      "16": "icons/bus_notification.png",
+      "32": "icons/bus_notification.png",
+      "48": "icons/bus_notification.png",
+      "128": "icons/bus_notification.png"
+    }
   },
   "permissions": [
     "alarms",

@@ -12,22 +12,46 @@ function Menu() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Starting state for the "Remind Me Later" button is that it is NOT snoozed
-  // const [isSnoozed, setIsSnoozed] = useState(false);
+  const [isSnoozed, setIsSnoozed] = useState(false);
 
   const now = new Date();
 
-  // Convert this as a STRING - This is for the target MONTH check   
+  // We have TODAY'S date
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  // Convert this as a STRING - This is for the target MONTH check
   const targetMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-  const targetMonthAsString = `${String(targetMonth.getMonth() + 1).padStart(2, "0")}-${targetMonth.getFullYear()}`; 
+  const targetMonthAsString = `${String(targetMonth.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${targetMonth.getFullYear()}`;
+
+  // We also have TOMORROW'S date
+  const nextDay = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + 1
+  );
 
   useEffect(() => {
-    chrome.storage.sync.get(["loadedMonth"], (data) => {
+    chrome.storage.sync.get(["loadedMonth", "snoozedUntil"], (data) => {
       if (data.loadedMonth === targetMonthAsString) {
         setIsLoaded(true);
       } else {
         setIsLoaded(false);
       }
+
+      if (typeof data.snoozedUntil === "string") {
+        const snoozedUntil = new Date(data.snoozedUntil);
+        if (today < snoozedUntil) {
+          setIsSnoozed(true);
+        } else {
+          setIsSnoozed(false);
+          chrome.storage.sync.remove("snoozedUntil");
+        }
+      }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetMonthAsString]);
 
   const handleMarkAsLoaded = () => {
@@ -37,10 +61,19 @@ function Menu() {
     });
   };
 
-
-//   const handleMarkAsSnoozed = () => {
-
-//   }
+  // Persistence is achieved now - snoozedUntil is now in the same format as today  
+  const handleSnoozeUntil = () => {
+      if (!isLoaded && !isSnoozed) {
+        console.log("Snoozed until tomorrow");
+        setIsSnoozed(true);
+      } else if (!isLoaded && isSnoozed) {
+        console.log("Already snoozed until tomorrow.");
+      } 
+        chrome.storage.sync.set({ snoozedUntil: nextDay.toString() }, () => {
+            console.log("Snoozed until tomorrow : ", nextDay.toString());
+        setIsSnoozed(true);
+    });
+  };
 
   const handleClickToUpassWebsite = (url: string | URL | undefined) => {
     window.open(url, "_blank", "noopener,noreferrer");
@@ -86,13 +119,15 @@ function Menu() {
           Website
         </button>
 
-        {/* We need to fix this up ;_; */}
         <div>
-            <button className="snooze-btn">
+          <button 
+            className="snooze-btn"
+            onClick={handleSnoozeUntil}
+            disabled={isSnoozed}
+            >
             <FaBell className="icon"></FaBell>Snooze Until Tomorrow
-            </button>
+          </button>
         </div>
-
       </div>
     </>
   );
