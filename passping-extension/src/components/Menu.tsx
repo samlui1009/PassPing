@@ -16,6 +16,10 @@ function Menu() {
   // Starting state for the "Remind Me Later" button is that it is NOT snoozed
   const [isSnoozed, setIsSnoozed] = useState(false);
 
+  // Starting state for displaying a transient message that should be displayed to the user at the very bottom of the extension
+  const [isSnoozedMessage, setIsSnoozedMessage] = useState(false);
+  const snoozedMessage = "Snoozed until tomorrow! We will remind you again then.";
+
   // We have TODAY'S date, in the preferred format that we want
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   // We also have TOMORROW'S date
@@ -34,6 +38,7 @@ function Menu() {
   )}-${targetMonth.getFullYear()}`;
 
   useEffect(() => {
+
     chrome.storage.sync.get(["loadedMonth", "snoozedUntil"], (data) => {
       if (data.loadedMonth === targetMonthAsString) {
         setIsLoaded(true);
@@ -47,6 +52,7 @@ function Menu() {
         const snoozedUntil = new Date(data.snoozedUntil);
         if (today < snoozedUntil) {
           setIsSnoozed(true);
+          setIsSnoozedMessage(true);
         } else {
           setIsSnoozed(false);
           chrome.storage.sync.remove("snoozedUntil");
@@ -70,6 +76,7 @@ function Menu() {
       chrome.storage.sync.set({ snoozedUntil : nextDay.toString(),
        }, () => {
         setIsSnoozed(true);
+        setIsSnoozedMessage(true);
       });
     } else if (isLoaded || isSnoozed) {
       console.log("Already snoozed until tomorrow or pass is already loaded.");
@@ -137,6 +144,13 @@ function Menu() {
             <FaBell className="icon"></FaBell>Snooze Until Tomorrow
           </button>
         </div>
+
+        {isSnoozedMessage && isSnoozed && (
+            <div>
+                <span className="snoozed-message">{snoozedMessage}</span>
+            </div>
+        )}
+
       </div>
     </>
   );

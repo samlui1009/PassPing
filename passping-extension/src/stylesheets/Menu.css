@@ -67,10 +67,10 @@
 }
 
 .mark-loaded-btn[disabled] {
-    background-color: #7ad196e8;
-    border-color: rgba(62, 195, 95, 0.123);
-    cursor: not-allowed;
-    box-shadow: none;
+  background-color: #7ad196e8;
+  border-color: rgba(62, 195, 95, 0.123);
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .menu-btn {
@@ -120,13 +120,12 @@
   background-color: #070b11;
 }
 
-
 .snooze-btn[disabled] {
-    background-color: #323334e8;
-    opacity: 0.75;
-    border-color: rgba(18, 18, 18, 0.123);
-    cursor: not-allowed;
-    box-shadow: none;
+  background-color: #323334e8;
+  opacity: 0.75;
+  border-color: rgba(18, 18, 18, 0.123);
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .menu-btn:focus {
@@ -137,4 +136,10 @@
   transform: translateY(-1px);
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
   background-color: #4c8dff;
+}
+
+.snoozed-msg {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #2a2a2a;
 }
