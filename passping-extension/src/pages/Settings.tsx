@@ -28,6 +28,15 @@ function Settings({ goBack }: SettingsProps) {
   };
 
   useEffect(() => {
+
+    if (savedVisible) {
+        const timer = setTimeout(() => {
+            setSavedVisible(false);
+        }, 10000); // Hide the message after 5 seconds
+    
+        return () => clearTimeout(timer); // Clear the timer if the component unmounts
+    }
+
     chrome.storage.sync.get(
       ["reminderDate", "reminderTime"],
       (data: StoredSettings) => {
@@ -35,7 +44,7 @@ function Settings({ goBack }: SettingsProps) {
         setReminderTime(data.reminderTime ?? "09:00");
       }
     );
-  }, []);
+  }, [savedVisible]);
 
   const saveSettings = (e: React.SubmitEvent) => {
     e.preventDefault();

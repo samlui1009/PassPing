@@ -110,19 +110,15 @@
   transition: background-color 0.5s ease;
 }
 
-.snooze-btn:focus {
-  outline: none;
-}
-
 .snooze-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
-  background-color: #070b11;
+  background-color: #323334e8;
 }
 
 .snooze-btn[disabled] {
-  background-color: #323334e8;
-  opacity: 0.75;
+  background-color: #070b11;
+  opacity: 0.50;
   border-color: rgba(18, 18, 18, 0.123);
   cursor: not-allowed;
   box-shadow: none;
@@ -138,8 +134,8 @@
   background-color: #4c8dff;
 }
 
-.snoozed-msg {
-  margin-top: 20px;
-  font-size: 18px;
-  color: #2a2a2a;
+.snoozed-msg-ctn {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
 }

@@ -18,7 +18,8 @@ function Menu() {
 
   // Starting state for displaying a transient message that should be displayed to the user at the very bottom of the extension
   const [isSnoozedMessage, setIsSnoozedMessage] = useState(false);
-  const snoozedMessage = "Snoozed until tomorrow! We will remind you again then.";
+  const snoozedMessage =
+    "Snoozed until tomorrow! We will remind you again then.";
 
   // We have TODAY'S date, in the preferred format that we want
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -37,8 +38,8 @@ function Menu() {
     "0"
   )}-${targetMonth.getFullYear()}`;
 
+  //  TODO:  Fix the transient message display
   useEffect(() => {
-
     chrome.storage.sync.get(["loadedMonth", "snoozedUntil"], (data) => {
       if (data.loadedMonth === targetMonthAsString) {
         setIsLoaded(true);
@@ -46,7 +47,7 @@ function Menu() {
         setIsLoaded(false);
       }
 
-      // First, check if it is a String  
+      // First, check if it is a String
       if (typeof data.snoozedUntil === "string") {
         // Then, convert it into a Date object
         const snoozedUntil = new Date(data.snoozedUntil);
@@ -60,7 +61,7 @@ function Menu() {
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetMonthAsString]);
+  }, [targetMonthAsString, isSnoozedMessage]);
 
   const handleMarkAsLoaded = () => {
     chrome.storage.sync.set({ loadedMonth: targetMonthAsString }, () => {
@@ -73,8 +74,7 @@ function Menu() {
   const handleSnoozeUntil = () => {
     if (!isLoaded && !isSnoozed) {
       console.log("Snoozed until tomorrow");
-      chrome.storage.sync.set({ snoozedUntil : nextDay.toString(),
-       }, () => {
+      chrome.storage.sync.set({ snoozedUntil: nextDay.toString() }, () => {
         setIsSnoozed(true);
         setIsSnoozedMessage(true);
       });
@@ -146,11 +146,10 @@ function Menu() {
         </div>
 
         {isSnoozedMessage && isSnoozed && (
-            <div>
-                <span className="snoozed-message">{snoozedMessage}</span>
-            </div>
+          <div className="snoozed-msg-ctn">
+            <span className="snoozed-message">{snoozedMessage}</span>
+          </div>
         )}
-
       </div>
     </>
   );
