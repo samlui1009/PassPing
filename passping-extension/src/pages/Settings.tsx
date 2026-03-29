@@ -123,8 +123,8 @@ function Settings({ goBack }: SettingsProps) {
           <div className="saved-msg-div">
             <h3 className="saved-message">Settings Saved!</h3>
             <p className="saved-confirmation">Your settings have now been updated to:</p>
-            <p>New Reminder Date: {reminderDate}</p>
-            <p>New Reminder Time: {reminderTime}</p>
+            <span className="saved-confirmation">New Reminder Date: {reminderDate}</span>
+            <span className="saved-confirmation">New Reminder Time: {reminderTime}</span>
           </div>
         )}
       </div>
