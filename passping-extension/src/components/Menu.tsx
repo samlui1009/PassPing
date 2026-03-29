@@ -18,8 +18,6 @@ function Menu() {
 
   // Starting state for displaying a transient message that should be displayed to the user at the very bottom of the extension
   const [isSnoozedMessage, setIsSnoozedMessage] = useState(false);
-  const snoozedMessage =
-    "Snoozed until tomorrow! We will remind you again then.";
 
   // We have TODAY'S date, in the preferred format that we want
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -145,12 +143,14 @@ function Menu() {
           </button>
         </div>
 
-        {isSnoozedMessage && isSnoozed && (
+        {isSnoozedMessage && isSnoozed && !isLoaded && (
           <div className="snoozed-msg-ctn">
-            <span className="snoozed-message">{snoozedMessage}</span>
+            <h3 className="snoozed-message">Snoozed until tomorrow!</h3>
+            <p>You will be reminded again tomorrow to check if the next month's U-Pass has been loaded.</p>
           </div>
         )}
       </div>
+
     </>
   );
 }

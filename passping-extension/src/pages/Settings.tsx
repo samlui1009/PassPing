@@ -74,7 +74,7 @@ function Settings({ goBack }: SettingsProps) {
         <h1 className="settings-title">Settings</h1>
 
         <form className="settings-form" onSubmit={saveSettings}>
-          <label htmlFor="reminder-date">Reminder Date:</label>
+          <label htmlFor="reminder-date">Reminder Date</label>
 
           {/* Set the minimum bound for the reminder date to be the 15th - Pass opens up on the 15th */}
           <input
@@ -90,9 +90,9 @@ function Settings({ goBack }: SettingsProps) {
           />
           <p className="addnl-notes">
             <b>NOTE:</b> Reminders will start on your set date for each month if
-            your pass isn't loaded. The default setting is the 15th as pass reloads are only available from that point onward.
+            your pass isn't loaded. The default is the 15th as pass reloads are only available from that point onward.
           </p>
-          <label htmlFor="time">Reminder Time:</label>
+          <label htmlFor="time">Reminder Time</label>
           <input
             className="form-input"
             type="time"
@@ -105,7 +105,7 @@ function Settings({ goBack }: SettingsProps) {
           />
           <p className="addnl-notes">
             <b>NOTE:</b> Set the time of day you'd like to receive reminders.
-            The default setting is 9 AM.
+            The default is 9 AM.
           </p>
           <div className="save-btn-div">
             <button
@@ -122,7 +122,9 @@ function Settings({ goBack }: SettingsProps) {
         {savedVisible && (
           <div className="saved-msg-div">
             <h3 className="saved-message">Settings Saved!</h3>
-            <p className="saved-confirmation">Your settings have now been updated to the {reminderDate} at {reminderTime}.</p>
+            <p className="saved-confirmation">Your settings have now been updated to:</p>
+            <p>New Reminder Date: {reminderDate}</p>
+            <p>New Reminder Time: {reminderTime}</p>
           </div>
         )}
       </div>
