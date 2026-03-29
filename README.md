@@ -1,8 +1,13 @@
 # PassPing
-A Google Chrome extension project, which helps remind post-secondary students living within the Greater Vancouver Area to load their monthly U-Passes onto their compass cards for each month. No more late reloads or missing bus passes!
+## What is PassPing?
+PassPing is a Google Chrome extension project, which helps remind post-secondary students living within the Greater Vancouver Area to load their monthly U-Passes onto their compass cards for each month. No more late reloads, missing bus passes or extra fees to be paid!!
+
+<div>
+<img src="project-assets\passping-home.png">
+</div>
 
 ## Inspiration behind Project
-As a current post-secondary student, I am a huge fan of having a discounted transit pass. I love being able to travel at a lower price across the Greater Vancouver area as much as I want - that being said, having to remember when to load the bus pass prior to the start of the next month is often very frustrating. Of course, I attribute that mainly to my own forgetfulness. As such, I wanted to create a simplistic, easy yet visually appealing solution that can provide reminders to load it when required. I believe that this would not only benefit myself, but other future students as well.
+As a current post-secondary student, I am a huge fan of having a discounted transit pass. I love being able to travel at a lower price across the Greater Vancouver area as much as I want at a much lower price. That being said, having to remember <i>when</i> to load the bus pass prior to the start of the next month is often a frustrating experience. Personally, I attribute that mainly to my own forgetfulness. As such, I wanted to create a simplistic, lightweight yet visually appealing solution that can provide U-Pass reload reminders to the user, prompting them to load it when required. I believe that this would not only benefit myself, but other future students as well.
 
 ## Tech Stack
 Due to the simplicity of this project, I decided to turn this idea into a Google extension. The reasoning for this was relatively straightforward: Chrome is one of the most commonly-used browsers across all platforms, is rapid and fast, and also houses a large extension library. Since I did not plan on saving any confidential user data into this extension, I didn't implement a backend. 
@@ -17,27 +22,61 @@ In terms of developing the frontend, I wanted to use a technology that I had pre
 
 ### React + Vite Integration 
 
+### Chrome APIs (Notifications, Alarms) using background.js
+
 ## Dependencies 
 <p>Not many new dependencies were utilized for developing this project. <b>React-Icons</b> was previously employed in former projects. Similarly, so was <b>font-awesome</b>. Both of these dependencies were utilized to include commonly-used icons into the extension, providing it with a much more vibrant and stimulating UI for the end-user.</p>
 
+## Current Functionalities
+### Home Page
+<p>Upon first installation, the extensions' home page will show the header, relevant taglines and information regarding the CURRENT pass in use, as well as next months' pass.</p>
+<p>A small status bar is present that informs users if next months' pass is already loaded or not. Below the status bar are 3 menu buttons, each that executes different actions.</p>
+<p>
+    <ol>
+        <li><b>Mark Pending Pass as Loaded</b>: 
+            <p>When clicked, this changes the status message to display a completion. This will also silence all notifications until the next month.</p>
+        </li>
+        <li><b>Open U-Pass Website</b>:
+            <p>This opens the Translink BC's U-Pass website in a different tab on your browser.</p>
+        </li>
+        <li><b>Snooze Until Tomorrow</b>:
+            <p>A new feature that was implemented to silence notifications temporarily under the condition if next months' pass has NOT been loaded. I designed this to ensure that end-users are not bombarded by notifications consistently, especially if they are unable to reload their U-Pass in the immediate timeframe. See below for an example.</p>
+            <img src="project-assets\passping-snoozedconfirmation.png">
+        </li>
+    </ol>
+</p> 
+
+<img src="project-assets\passping-home2.png">
+
+### Settings 
+<p>Clicking the Settings button in the header of the home page will link to a separate page on the extension that allows users to edit their reminder date and reminder time preferences.</p>
+<p>The reminder date and time have default starting settings of the 15th and 9:00 AM, respectively. The 15th was selectively chosen, given that Translink U-Pass reloads only start then.</p> 
+
+<img src="project-assets\passping-settings.png">
+
+<p>However, these values can be edited very easily with different valid inputs. See below for an example. You can then click the Save Settings button at the very bottom of the page to save these.</p>
+
+<img src="project-assets\passping-settingsconfirmation.png">
+
 ## Future Functionalities 
 <ol>
+    <li>Allow customizations for when notifications should be delivered (Hourly, every 3 hours etc.)</li>
     <li>Potential automation (Seleneium, Playwright)</li>
 </ol>
 
 ## How to Use
-<p>As of April 2026, PassPing is now available on the Chrome Extension store for download! :D</p>
-<p>To use, simply install the extension. You can find it by searching PassPing in the Chrome store search bar.</p>
+<p>As of <b>April 2026</b>, PassPing is now available on the Chrome Extension store for download! :D</p>
+<p>To use, simply install the extension. You can find it by searching PassPing in the Chrome store search bar, or click here to directly access the extension: </p>
 
 ### Try It Yourself - Instructions for Set-Up 
 <ul>
-<li>A default reminder date and default reminder time have already been set up to the 15th and 9:00 AM, respectively. To change these, simply input your preferred parameters and click Save Settings. This should save your preferences directly.</li>
+<li>As mentioned above, a default reminder date and default reminder time have already been set up to the 15th and 9:00 AM, respectively. To change these, simply input your preferred parameters and click Save Settings. This will save your preferences directly.</li>
 </ul>
 
-<p>I am always open to feedback and improvements on how to make PassPing even better for students. Please fee free to contact the e-mail in my GitHub to get in touch!</p>
+<p>I am always open to feedback and improvements on how to make PassPing even better for students. Please feel free to contact the e-mail in my GitHub to get in touch!</p>
 
 ## Thank You!
-<p>Finally, thank you so, <b>SO</b> much for installing and trying out my first Google extension. I can only hope that I delivered it justice. Happy transiting! 🚌🚏</p>
+<p>Finally, thank you so, <b>SO</b> much for installing and trying out my first Google extension. In addition, huge kudos to my fellow testers and for providing such useful feedback: lada496, ajarodpaulson and behold_mycode. Happy transiting! 🚌🚏</p>
 
 ## References
 
