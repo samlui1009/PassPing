@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "PassPing",
   "version": "1.0.0",
-  "description": "Never miss your monthly U-Pass ever again! PassPing is a Chrome extension that sends you a notification on the first day of each month to remind you to upload your U-Pass.",
+  "description": "Passping is a Google Chrome extension that helps remind post-secondary students to reload next months' U-Pass. Never forget your reload again!",
   "action": {
     "default_popup": "index.html",
     "default_title": "PassPing Reminder",

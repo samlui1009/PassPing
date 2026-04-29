@@ -10,6 +10,9 @@ import "../stylesheets/Menu.css";
 function Menu() {
   const now = new Date();
 
+  // NOTE: getDay() is the day of the week - getDate() is the ACTUAL numerical date. 
+  const canLoad = now.getDate() >= 16;
+
   // Starting state for now is that pending U-Pass is NOT loaded
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -36,7 +39,6 @@ function Menu() {
     "0"
   )}-${targetMonth.getFullYear()}`;
 
-  //  TODO:  Fix the transient message display
   useEffect(() => {
     chrome.storage.sync.get(["loadedMonth", "snoozedUntil"], (data) => {
       if (data.loadedMonth === targetMonthAsString) {
@@ -116,7 +118,7 @@ function Menu() {
         <button
           className="mark-loaded-btn"
           onClick={handleMarkAsLoaded}
-          disabled={isLoaded}
+          disabled={!canLoad || isLoaded}
         >
           <div className="icon-div">
             <IoMdCheckmarkCircle className="icon"></IoMdCheckmarkCircle>
@@ -137,7 +139,7 @@ function Menu() {
           <button
             className="snooze-btn"
             onClick={handleSnoozeUntil}
-            disabled={handleDisableSnoozedButtonState()}
+            disabled={!canLoad || handleDisableSnoozedButtonState()}
           >
             <FaBell className="icon"></FaBell>Snooze Until Tomorrow
           </button>
@@ -149,6 +151,13 @@ function Menu() {
             <p>You will be reminded again tomorrow to check if the next month's U-Pass has been loaded.</p>
           </div>
         )}
+
+        {!canLoad && (
+            <div className="too-early-msg-ctn">
+                <h3>It's too early to load next months' U-Pass! Come back on the 16th. 🚍</h3>
+            </div>
+        )}
+
       </div>
 
     </>
