@@ -20,12 +20,16 @@ In terms of developing the frontend, I wanted to use a technology that I had pre
 
 ### How to Create a Google Extension - The Main Components 
 
+
 ### React + Vite Integration 
 
 ### Chrome APIs (Notifications, Alarms) using background.js
+<p>Chrome comes equipped with a number of APIs that can be used for development.</p>
+
+#### 
 
 ## Dependencies 
-<p>Not many new dependencies were utilized for developing this project. <b>React-Icons</b> was previously employed in former projects. Similarly, so was <b>font-awesome</b>. Both of these dependencies were utilized to include commonly-used icons into the extension, providing it with a much more vibrant and stimulating UI for the end-user.</p>
+<p>Not many new dependencies were utilized for developing this project. <b>React-Icons</b> was previously employed in former projects. Both of these dependencies were utilized to include commonly-used icons into the extension, providing it with a much more vibrant and stimulating UI for the end-user.</p>
 
 ## Current Functionalities
 ### Home Page
@@ -40,7 +44,7 @@ In terms of developing the frontend, I wanted to use a technology that I had pre
             <p>This opens the Translink BC's U-Pass website in a different tab on your browser.</p>
         </li>
         <li><b>Snooze Until Tomorrow</b>:
-            <p>A new feature that was implemented to silence notifications temporarily under the condition if next months' pass has NOT been loaded. I designed this to ensure that end-users are not bombarded by notifications consistently, especially if they are unable to reload their U-Pass in the immediate timeframe. See below for an example.</p>
+            <p>A new feature that was implemented to silence notifications temporarily under the condition if next months' pass has NOT been loaded. I designed this to ensure that end-users are not bombarded by notifications consistently, especially if they are unable to reload their U-Pass in the immediate timeframe. This does reset itself for the next day, resuming notification delivery. See below for an example.</p>
             <img src="project-assets\passping-snoozedconfirmation.png">
         </li>
     </ol>
@@ -54,18 +58,18 @@ In terms of developing the frontend, I wanted to use a technology that I had pre
 
 <img src="project-assets\passping-settings.png">
 
-<p>However, these values can be edited very easily with different valid inputs. See below for an example. You can then click the Save Settings button at the very bottom of the page to save these.</p>
+<p>However, these values can be edited very easily with different valid inputs. See below for an example. You can then click the Save Settings button at the very bottom of the page to save these, with a transient confirmation message that will display the newly saved settings.</p>
 
 <img src="project-assets\passping-settingsconfirmation.png">
 
 ## Future Functionalities 
 <ol>
-    <li>Allow customizations for when notifications should be delivered (Hourly, every 3 hours etc.)</li>
-    <li>Potential automation (Seleneium, Playwright)</li>
+    <li>Customizable notification delivery times</li>
+    <li>Semi-automation (Selenium, Playwright etc.)</li>
 </ol>
 
 ## How to Use
-<p>As of <b>April 2026</b>, PassPing is now available on the Chrome Extension store for download! :D</p>
+<p>As of <b>May 2026</b>, PassPing is now available on the Chrome Extension store for download! :D</p>
 <p>To use, simply install the extension. You can find it by searching PassPing in the Chrome store search bar, or click here to directly access the extension: </p>
 
 ### Try It Yourself - Instructions for Set-Up 

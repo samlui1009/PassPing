@@ -7,6 +7,8 @@ import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 
 import "../stylesheets/Menu.css";
 
+import { handleOnClickToUpassWebsite } from "../helpers/MenuHelpers";
+
 function Menu() {
   const now = new Date();
 
@@ -83,10 +85,6 @@ function Menu() {
     }
   };
 
-  const handleClickToUpassWebsite = (url: string | URL | undefined) => {
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
-
   const handleDisableSnoozedButtonState = () => {
     if (isLoaded || isSnoozed) {
       return true; // Disable if loaded
@@ -99,7 +97,7 @@ function Menu() {
     <>
       <div>
         <div className="status-div">
-          {!isLoaded && (
+          {!isLoaded && canLoad && (
             <>
               <FaRegCircleXmark className="icon"></FaRegCircleXmark>
               <span>Next Month Not Loaded</span>
@@ -128,7 +126,7 @@ function Menu() {
         <button
           className="menu-btn"
           onClick={() =>
-            handleClickToUpassWebsite("https://upassbc.translink.ca/")
+            handleOnClickToUpassWebsite("https://upassbc.translink.ca/")
           }
         >
           <FaExternalLinkAlt className="icon"></FaExternalLinkAlt>Open U-Pass
