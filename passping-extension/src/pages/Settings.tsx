@@ -14,9 +14,10 @@ type StoredSettings = {
 };
 
 function Settings({ goBack }: SettingsProps) {
-  const [reminderDate, setReminderDate] = useState<number>(15); // Default to the 15th
+  const [reminderDate, setReminderDate] = useState<number>(16); // Default to the 16th
   const [reminderTime, setReminderTime] = useState<string>("09:00"); // Default to 9 AM
 
+  //   Feature to come later  
   //   Permits the user to set the name of their school, which will be used in the reminder message.
   //   const [schoolName, setSchoolName] = useState<string>("");
 
@@ -28,7 +29,6 @@ function Settings({ goBack }: SettingsProps) {
   };
 
   useEffect(() => {
-
     if (savedVisible) {
         const timer = setTimeout(() => {
             setSavedVisible(false);
@@ -40,7 +40,7 @@ function Settings({ goBack }: SettingsProps) {
     chrome.storage.sync.get(
       ["reminderDate", "reminderTime"],
       (data: StoredSettings) => {
-        setReminderDate(data.reminderDate ?? 15);
+        setReminderDate(data.reminderDate ?? 16);
         setReminderTime(data.reminderTime ?? "09:00");
       }
     );
@@ -76,13 +76,13 @@ function Settings({ goBack }: SettingsProps) {
         <form className="settings-form" onSubmit={saveSettings}>
           <label htmlFor="reminder-date">Reminder Date</label>
 
-          {/* Set the minimum bound for the reminder date to be the 15th - Pass opens up on the 15th */}
+          {/* Set the minimum bound for the reminder date to be the 16th - Pass opens up on the 16th */}
           <input
             className="form-input"
             type="number"
             id="reminder-date"
             name="reminder-date"
-            min="15"
+            min="16"
             max="31"
             step="1"
             value={reminderDate}
@@ -90,7 +90,7 @@ function Settings({ goBack }: SettingsProps) {
           />
           <p className="addnl-notes">
             <b>NOTE:</b> Reminders will start on your set date for each month if
-            your pass isn't loaded. The default is the 15th as pass reloads are only available from that point onward.
+            your pass isn't loaded. The default is the 16th as pass reloads are only available from that point onward.
           </p>
           <label htmlFor="time">Reminder Time</label>
           <input
@@ -104,8 +104,8 @@ function Settings({ goBack }: SettingsProps) {
             onChange={(e) => setReminderTime(e.target.value)}
           />
           <p className="addnl-notes">
-            <b>NOTE:</b> Set the time of day you'd like to receive reminders.
-            The default is 9 AM.
+            <b>NOTE:</b> Set the time of day for reminders to be sent.
+            The default is 9 AM PST.
           </p>
           <div className="save-btn-div">
             <button

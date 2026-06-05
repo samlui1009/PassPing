@@ -5,8 +5,7 @@
 }
 
 .ext-name {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 30px;
   color: #5f8fd8;
   margin-bottom: 10px;
 }
@@ -71,14 +70,14 @@
 
 .full-date {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
   color: #e6a800;
   margin-top: 6px;
 }
 
 .next-date {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 400;
     color: #9a7308a8;
     margin-top: 6px;
 }

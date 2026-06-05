@@ -42,6 +42,14 @@
   background-color: #dff5df;
 }
 
+.status-div.loaded {
+    background-color: #7de07d;
+}
+
+.status-div.not-loaded {
+    background-color: #ca6e6e;
+}
+
 .mark-loaded-btn {
   display: flex;
   text-align: left;

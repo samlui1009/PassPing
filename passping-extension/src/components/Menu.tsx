@@ -93,11 +93,24 @@ function Menu() {
     }
   };
 
+//   function ToggleButton() {
+//     const [isActive, setIsActive] = useState(false);
+  
+//     return (
+//       <button 
+//         onClick={() => setIsActive(!isActive)}
+//         className={`btn ${isActive ? 'btn-active' : 'btn-inactive'}`}
+//       >
+//         {isActive ? 'Active' : 'Inactive'}
+//       </button>
+//     );
+//   }
+
   return (
     <>
       <div>
-        <div className="status-div">
-          {!isLoaded && canLoad && (
+        <div className={`status-div ${isLoaded ? 'loaded' : 'not-loaded'}`}>
+          {!isLoaded && (
             <>
               <FaRegCircleXmark className="icon"></FaRegCircleXmark>
               <span>Next Month Not Loaded</span>
@@ -152,7 +165,11 @@ function Menu() {
 
         {!canLoad && (
             <div className="too-early-msg-ctn">
-                <h3>It's too early to load next months' U-Pass! Come back on the 16th. 🚍</h3>
+                <p style={
+                    {
+                        fontSize: "18px",
+                    }
+                }>It's too early to load next months' U-Pass! Come back on the 16th. 🚍</p>
             </div>
         )}
 
