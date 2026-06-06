@@ -25,12 +25,16 @@ Google Chrome's <code>chrome.storage</code> API. See below for more details.</p>
 #### Manifest.json
 <p>This JSON file is considered the "blueprint" for the extension. It is a basic requirement for EVERY extension. It details pertinent metadata (I.e., extension name; version etc.), and can be utilized to define specific aspects to your extension (I.e., background "service workers", alarms etc.). As per <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json#:~:text=Using%20manifest.,scripts%2C%20and%20browser%20actions).">this article</a>, note that there are many different keys that you can set in your file. Ultimately, the finalized configuration depends on your application needs. In this case, a Chrome Extension will require: </p>
 
-<br>
-
 <table>
+    <thead>
+    </thead>
+    <tbody>
+    </tbody>
 </table>
 
 ### React + Vite Integration 
+<p>Google Chrome extensions are traditionally written with the basic modern web development languages (HTML5, CSS3 and JavaScript). However, </p>
+
 
 ### Chrome APIs (Notifications, Alarms, Storage) using background.js
 <p>Chrome comes equipped with a number of APIs that can be used for development. You can define these in your <code>manifest.json</code> file.</p>
@@ -44,9 +48,7 @@ Google Chrome's <code>chrome.storage</code> API. See below for more details.</p>
 ## Dependencies 
 <p>Not many new dependencies were utilized for developing this project. <b>React-Icons</b> was previously employed in former projects. Both of these dependencies were utilized to include commonly-used icons into the extension, providing it with a much more vibrant and stimulating UI for the end-user.</p>
 
-<br>
-
-<p><b>date-fns</b></p>
+<p><b>date-fns</b>:  </p>
 
 ## Current Functionalities
 ### Home Page
@@ -72,7 +74,7 @@ Google Chrome's <code>chrome.storage</code> API. See below for more details.</p>
 
 ### Settings 
 <p>Clicking the Settings button in the header of the home page will link to a separate page on the extension that allows users to edit their reminder date and reminder time preferences.</p>
-<p>The reminder date and time have default starting settings of the 15th and 9:00 AM, respectively. The 16th was selectively chosen, given that Translink U-Pass reloads only start then.</p> 
+<p>The reminder date and time have default starting settings of the 16th and 9:00 AM, respectively. The 16th was selectively chosen, given that Translink U-Pass reloads only start then.</p> 
 
 <img src="project-assets\passping-settings.png">
 
@@ -80,19 +82,22 @@ Google Chrome's <code>chrome.storage</code> API. See below for more details.</p>
 
 <img src="project-assets\passping-settingsconfirmation.png">
 
-## Future Functionalities 
+## Future Improvements 
 <ol>
     <li>Customizable notification delivery times
-        <p></p>
+        <p>Currently, the default setting for the alarm to fire and send notifications is programmed for every 3 hours. However, the 
+        functionality could be improved with a more tailored approach by letting users customize how often they would like to receive 
+        these notifications. This feature is currently in planning for the next iteration once the baseline functionalities are optimized.</p>
     </li>
-    <li>Semi-automation with Selenium & Playwright
-        <p></p>
+    <li>Potential semi-automation (Selenium, Playwright)
     </li>
 </ol>
 
 ## How to Use
 <p>As of <b>August 2026</b>, PassPing is now available on the Chrome Extension store for download! :D</p>
 <p>To use, simply install the extension. You can find it by searching PassPing in the Chrome store search bar, or click here to directly access the extension: </p>
+
+<b><p>Download link coming soon!</p></b>
 
 ### Try It Yourself - Instructions for Set-Up 
 <ul>
