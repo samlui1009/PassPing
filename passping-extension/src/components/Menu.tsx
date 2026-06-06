@@ -7,13 +7,14 @@ import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 
 import "../stylesheets/Menu.css";
 
-import { handleOnClickToUpassWebsite } from "../helpers/MenuHelpers";
+import { handleOnClickToUpassWebsite, handleDisableSnoozedButtonState, handleSnoozedUntil, handleMarkAsLoaded } from "../helpers/MenuHelpers";
+import { getDates } from "../helpers/DateHelpers";
 
 function Menu() {
-  const now = new Date();
 
-  // NOTE: getDay() is the day of the week - getDate() is the ACTUAL numerical date. 
-  const canLoad = now.getDate() >= 16;
+  const { today, 
+          tomorrow, 
+          targetMonthAsString } = getDates();
 
   // Starting state for now is that pending U-Pass is NOT loaded
   const [isLoaded, setIsLoaded] = useState(false);
@@ -24,22 +25,8 @@ function Menu() {
   // Starting state for displaying a transient message that should be displayed to the user at the very bottom of the extension
   const [isSnoozedMessage, setIsSnoozedMessage] = useState(false);
 
-  // We have TODAY'S date, in the preferred format that we want
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  // We also have TOMORROW'S date
-  const nextDay = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate() + 1
-  );
-
-  // This is for detecting the TARGET MONTH
-  // Convert this as a STRING - This is for the target MONTH check
-  const targetMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-  const targetMonthAsString = `${String(targetMonth.getMonth() + 1).padStart(
-    2,
-    "0"
-  )}-${targetMonth.getFullYear()}`;
+  // Recall: getDate() returns back the NUMERICAL date   
+  const canLoad = today.getDate() >= 16;
 
   useEffect(() => {
     chrome.storage.sync.get(["loadedMonth", "snoozedUntil"], (data) => {
@@ -62,53 +49,13 @@ function Menu() {
         }
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetMonthAsString, isSnoozedMessage]);
-
-  const handleMarkAsLoaded = () => {
-    chrome.storage.sync.set({ loadedMonth: targetMonthAsString }, () => {
-      console.log("Loaded month saved");
-      setIsLoaded(true);
-    });
-  };
-
-  // Persistence is achieved now - snoozedUntil is now in the same format as today
-  const handleSnoozeUntil = () => {
-    if (!isLoaded && !isSnoozed) {
-      console.log("Snoozed until tomorrow");
-      chrome.storage.sync.set({ snoozedUntil: nextDay.toString() }, () => {
-        setIsSnoozed(true);
-        setIsSnoozedMessage(true);
-      });
-    } else if (isLoaded || isSnoozed) {
-      console.log("Already snoozed until tomorrow or pass is already loaded.");
-    }
-  };
-
-  const handleDisableSnoozedButtonState = () => {
-    if (isLoaded || isSnoozed) {
-      return true; // Disable if loaded
-    } else {
-      return false; // Enable otherwise
-    }
-  };
-
-//   function ToggleButton() {
-//     const [isActive, setIsActive] = useState(false);
-  
-//     return (
-//       <button 
-//         onClick={() => setIsActive(!isActive)}
-//         className={`btn ${isActive ? 'btn-active' : 'btn-inactive'}`}
-//       >
-//         {isActive ? 'Active' : 'Inactive'}
-//       </button>
-//     );
-//   }
+  }, [targetMonthAsString, isSnoozedMessage, today]);
 
   return (
     <>
       <div>
+        {/* Applied conditional CSS styling to either a "Loaded" or "Not Loaded" state
+        If it is LOADED, it displays as green. If it is NOT loaded, it displays as red. */}
         <div className={`status-div ${isLoaded ? 'loaded' : 'not-loaded'}`}>
           {!isLoaded && (
             <>
@@ -128,7 +75,7 @@ function Menu() {
       <div className="menu-div">
         <button
           className="mark-loaded-btn"
-          onClick={handleMarkAsLoaded}
+          onClick={() => handleMarkAsLoaded(targetMonthAsString, setIsLoaded)}
           disabled={!canLoad || isLoaded}
         >
           <div className="icon-div">
@@ -146,33 +93,42 @@ function Menu() {
           Website
         </button>
 
+        {/* This is the "Snooze Until Tomorrow" button. Upon clicking, it should handle the 
+        handleSnoozeUntil method. This button should also be disabled IF it is NOT yet the 16th of the month, 
+        or if any of the if/else conditions are triggered inside the handleDisableSnoozedButtonState method */}
         <div>
           <button
             className="snooze-btn"
-            onClick={handleSnoozeUntil}
-            disabled={!canLoad || handleDisableSnoozedButtonState()}
+            onClick = {() => handleSnoozedUntil(isLoaded, isSnoozed, setIsSnoozed, setIsSnoozedMessage, tomorrow)}
+            disabled={!canLoad || handleDisableSnoozedButtonState(isLoaded, isSnoozed)}
           >
             <FaBell className="icon"></FaBell>Snooze Until Tomorrow
           </button>
         </div>
 
+        {/* If the Snooze button is clicked, next months' U-Pass is NOT loaded, and we wish to display the "Is Snoozed" message,
+        display the following message at the bottom of extension. */}
         {isSnoozedMessage && isSnoozed && !isLoaded && (
           <div className="snoozed-msg-ctn">
             <h3 className="snoozed-message">Snoozed until tomorrow!</h3>
-            <p>You will be reminded again tomorrow to check if the next month's U-Pass has been loaded.</p>
+            <p>You will be reminded again tomorrow to load next month's U-Pass.</p>
           </div>
         )}
 
+        {/* If we CANNOT load the U-Pass (As in, the date is too early), display this warning message at the bottom of extension. */}
         {!canLoad && (
             <div className="too-early-msg-ctn">
                 <p style={
                     {
                         fontSize: "18px",
+                        maxWidth: "350px",
                     }
-                }>It's too early to load next months' U-Pass! Come back on the 16th. 🚍</p>
+                }>
+                    It's too early to load next months' U-Pass! 
+                    Come back on the 16th. 🚍
+                </p>
             </div>
         )}
-
       </div>
 
     </>

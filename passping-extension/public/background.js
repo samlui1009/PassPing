@@ -1,12 +1,19 @@
-console.log("PassPing background loaded");
+import chrome from "chrome";
+import { getDates } from "../helpers/DateHelpers";
+
+console.log("PassPing background listener loaded");
+
+const { 
+    today, 
+    tomorrow, 
+    targetMonthAsString } = getDates();
 
 // This is our U-Pass alarm that gets fired.
 // For development purposes, it's set to fire every minute starting immediately.
-// You can change the timing as needed for production use.
 // The alarm will trigger a notification reminding users to reload their U-Pass for the next month.
 chrome.alarms.create("upassReloadReminder", {
   when: Date.now(), // Start immediately
-  periodInMinutes: 180, // Repeat every 1 minute now for dev purposes, then do 3 hours (180 minutes) - Adjust upon deployment
+  periodInMinutes: 1, // Repeat every 1 minute now for dev purposes, then do 3 hours (180 minutes) - Adjust upon deployment
 });
 
 // We use this listener to set default values for the reminder date and time when the extension is installed.
