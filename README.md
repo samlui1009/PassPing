@@ -2,8 +2,8 @@
 ## What is PassPing?
 <p>PassPing is a Google Chrome extension project, which helps remind post-secondary students living within the Greater Vancouver Area to load their monthly U-Passes onto their compass cards for each month. No more late reloads, missing bus passes or extra fees to be paid!</P>
 
-<div>
-<img src="project-assets\passping-home.png">
+<div align="center">
+    <img src="project-assets\passping-home.png" width="350px">
 </div>
 
 ## Inspiration behind Project
@@ -23,27 +23,49 @@ Google Chrome's <code>chrome.storage</code> API. See below for more details.</p>
 <p>Google Chrome Extensions require basic, fundamental components.</p>
 
 #### Manifest.json
-<p>This JSON file is considered the "blueprint" for the extension. It is a basic requirement for EVERY extension. It details pertinent metadata (I.e., extension name; version etc.), and can be utilized to define specific aspects to your extension (I.e., background "service workers", alarms etc.). As per <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json#:~:text=Using%20manifest.,scripts%2C%20and%20browser%20actions).">this article</a>, note that there are many different keys that you can set in your file. Ultimately, the finalized configuration depends on your application needs. In this case, a Chrome Extension will require: </p>
+<p>This JSON file is considered the "blueprint" for the extension. It is a basic requirement for EVERY extension. It details pertinent metadata (I.e., extension name; version etc.), and can be utilized to define specific aspects to your extension (I.e., background "service workers", alarms etc.). As per <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json#:~:text=Using%20manifest.,scripts%2C%20and%20browser%20actions).">this article</a>, note that there are many different keys that you can set in your file. Ultimately, the finalized configuration depends on your application needs. As such, this file is critical. Other components that make up a typical extensions' architecture may include: </p>
 
 <table>
     <thead>
+        <tr>
+            <th>Requirement</th>
+            <th>Function</th>
+        </tr>
     </thead>
     <tbody>
+        <tr>
+            <td>Manifest.json</td>
+            <td>Described above. Tl;dr: A required JSON file containing integral metadata for your extension. Note that you are required to set the <code>manifest_version</code>. This informs the browser that the extension follows the <b>Manifest V3</b> standard. In short, it was developed to improve privacy, security and performance issues for extensions. Read more <a href="https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3">here</a>.</td>
+        </tr>
+        <tr>
+            <td>Background Script/Service Worker</td>
+            <td>This component functions as the extensions' event handler. It loads when required, and simply unloads when stagnant. It continues to run so long as it continuously receives events while the browser is running (I.e., browser-related events, coordinating communication, state management and data persistence etc). Read more <a href="https://developer.chrome.com/docs/extensions/develop/concepts/service-workers">here</a>.</td>
+        </tr>
+        <tr>
+            <td>Pop-Up Component</td>
+            <td>This is the UI window that appears when the user clicks on the designated extensions' icon, displaying HTML components such as buttons, forms, actions, status displays etc.</td>
+        </tr>
+        <tr>
+            <td>Content Scripts</td>
+            <td>**NOTE: This is something that can add more functionality to your extension. However, in the case of PassPing, this was not required.</td>
+        </tr>
     </tbody>
 </table>
 
 ### React + Vite Integration 
-<p>Google Chrome extensions are traditionally written with the basic modern web development languages (HTML5, CSS3 and JavaScript). However, </p>
-
+<p>Google Chrome extensions are traditionally written with the basic modern web development languages (HTML5, CSS3 and JavaScript). However, there are modernized frameworks that can be integrated, such as React.js and Vue.js as well. <a href="https://medium.com/@5tigerjelly/creating-a-chrome-extension-with-react-and-vite-boilerplate-provided-db3d14473bf6">This Medium article</a> provides a comprehensive guide (including boilerplate code) to assist in the initial project set-up.</p>
 
 ### Chrome APIs (Notifications, Alarms, Storage) using background.js
 <p>Chrome comes equipped with a number of APIs that can be used for development. You can define these in your <code>manifest.json</code> file.</p>
 
 #### Notifications 
+<p></p>
 
 #### Alarms 
+<p></p>
 
 #### Storage
+<p></p>
 
 ## Dependencies 
 <p>Not many new dependencies were utilized for developing this project. <b>React-Icons</b> was previously employed in former projects. Both of these dependencies were utilized to include commonly-used icons into the extension, providing it with a much more vibrant and stimulating UI for the end-user.</p>
@@ -65,22 +87,26 @@ Google Chrome's <code>chrome.storage</code> API. See below for more details.</p>
         </li>
         <li><b>Snooze Until Tomorrow</b>:
             <p>A new feature that was implemented to silence notifications temporarily under the condition if next months' pass has NOT been loaded. I designed this to ensure that users are not bombarded by notifications consistently, especially if they are unable to reload their U-Pass in the immediate timeframe. This does reset itself for the next day, resuming notification delivery. See below for an example.</p>
-            <img src="project-assets\passping-snoozedconfirmation.png">
+            <p align="center">
+                <img src="project-assets\passping-snoozedconfirmation.png" width="350px;">
+            </p>
         </li>
     </ol>
 </p> 
-
-<img src="project-assets\passping-home2.png">
 
 ### Settings 
 <p>Clicking the Settings button in the header of the home page will link to a separate page on the extension that allows users to edit their reminder date and reminder time preferences.</p>
 <p>The reminder date and time have default starting settings of the 16th and 9:00 AM, respectively. The 16th was selectively chosen, given that Translink U-Pass reloads only start then.</p> 
 
-<img src="project-assets\passping-settings.png">
+<p align="center">
+    <img src="project-assets\passping-settings.png" width="350px;">
+</p>
 
 <p>However, these values can be edited very easily with different valid inputs. See below for an example. You can then click the Save Settings button at the very bottom of the page to save these, with a transient confirmation message that will display the newly saved settings.</p>
 
-<img src="project-assets\passping-settingsconfirmation.png">
+<p align="center">
+    <img src="project-assets\passping-settingsconfirmation.png" width="350px;">
+</p>
 
 ## Future Improvements 
 <ol>
