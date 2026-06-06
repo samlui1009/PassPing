@@ -1,10 +1,11 @@
 // Main submodule:
-import { addDays, format } from "date-fns";
+import { addDays, format, getDaysInMonth } from "date-fns";
 
 // Set up the dates and their corresponding types for Menu component
 export type Dates = {
     today: Date,
     tomorrow: Date,
+    currentMonthMaxDate: number,
     targetMonthAsString: string
 }
 
@@ -29,10 +30,13 @@ export const getDates = (now = new Date()): Dates => {
             now.getMonth() + 1,
             1
         );
+    
+    const currentMonthMaxDate = getDaysInMonth(today);
 
     return {
         today,
         tomorrow,
+        currentMonthMaxDate,
         targetMonthAsString:
             format(
                 targetMonth,
@@ -40,3 +44,4 @@ export const getDates = (now = new Date()): Dates => {
             )
     };
 };
+

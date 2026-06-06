@@ -1,12 +1,20 @@
-console.log("PassPing background loaded");
+import chrome from "chrome";
+import { getDates } from "../helpers/DateHelpers";
 
-// This is our U-Pass alarm that gets fired.
-// For development purposes, it's set to fire every minute starting immediately.
-// You can change the timing as needed for production use.
-// The alarm will trigger a notification reminding users to reload their U-Pass for the next month.
+console.log("PassPing background listener loaded");
+
+const { 
+    today, 
+    tomorrow, 
+    targetMonthAsString } = getDates();
+
+// This is our U-Pass alarm that gets fired. For development purposes, it's set to fire every minute starting immediately.
+// Upon deployment, fire the alarm every 3 hours (180 minutes)
+// The alarm will trigger a notification reminding users to reload their U-Pass for the next month
+// TODO:  - Potentially make this more dynamic by allowing users to set the alarm frequency
 chrome.alarms.create("upassReloadReminder", {
-  when: Date.now(), // Start immediately
-  periodInMinutes: 180, // Repeat every 1 minute now for dev purposes, then do 3 hours (180 minutes) - Adjust upon deployment
+  when: today, 
+  periodInMinutes: 1
 });
 
 // We use this listener to set default values for the reminder date and time when the extension is installed.
@@ -15,7 +23,7 @@ chrome.runtime.onInstalled.addListener(() => {
     if (data.reminderDate == null && data.reminderTime == null) {
       chrome.storage.sync.set(
         {
-          reminderDate: 15,
+          reminderDate: 16,
           reminderTime: "09:00",
         },
         () => {
@@ -30,25 +38,26 @@ chrome.runtime.onInstalled.addListener(() => {
 // It checks for the current date and time against the user's specified reminder date and time before proceeding to send a notification.
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "upassReloadReminder") {
-    console.log("Alarm fired!");
+    console.log("U-Pass renewal alarm has been fired!");
 
     chrome.storage.sync.get(
-      ["reminderDate", "reminderTime", "loadedMonth", "snoozedUntil"],
-      (data) => {
+      ["reminderDate", "reminderTime", "loadedMonth", "snoozedUntil"], (data) => {
         const reminderDate = data.reminderDate;
         const reminderTime = data.reminderTime;
 
-        const now = new Date();
-        const today = now.getDate();
+        // const now = new Date();
+        // const today = now.getDate();
 
         console.log("Current day:", today);
         console.log("Reminder day:", reminderDate);
 
-        // Check 0: Is the current date LESS than the 15th? If so, do nothing and break here. We can't proceed as next months' pass isn't valid yet.
-        if (today < 15) {
+        // Check 0: Is the current date LESS than the 16th? If so, do nothing and break here. We can't proceed as next months' pass isn't valid yet.
+        if (today < 16) {
           console.log("Next months' U-Pass is not available yet. Do nothing.");
           return;
         }
+
+        console.log("Current date is past the 16th — ready for next checks!");
 
         // Check 1: Is it the right date yet?
         if (today < reminderDate) {
@@ -61,7 +70,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         console.log("Date condition met — ready for next checks!");
 
         // Check 2: Is it the right time yet?
-        const currentTime = now.toLocaleTimeString("en-US", {
+        const currentTime = today.toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
           hour12: false, // Set to true for 12-hour format with AM/PM
@@ -79,7 +88,6 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
         console.log("Time condition met — ready for next checks!");
 
-        console.log("Today's date:", now);
         console.log(
           "Tomorrow's date for snooze comparison:",
           data.snoozedUntil
@@ -96,7 +104,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         // Check 3a: Is next months' pass already loaded?
 
         // Determine the target month based on the current date and the user's specified reminder date.
-        const targetDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+        const targetDate = new Date(today.getFullYear(), today.getMonth() + 1, 1);
         const targetMonthKey = `${String(targetDate.getMonth() + 1).padStart(
           2,
           "0"
@@ -117,9 +125,18 @@ chrome.alarms.onAlarm.addListener((alarm) => {
           "Target month not loaded yet. Proceeding to the next check!"
         );
 
-        // THIS IS A TODO AFTER WE FIGURE OUT THE LOGIC
         // Check 4: Did the user click "Snooze/Remind Me Later" on the notification? If so, we should wait 24 hours later before firing the notification again.
-
+        const snoozedUntil = data.snoozedUntil;
+        if (snoozedUntil != null) {
+            console.log("The snooze feature is active. Notifications to be snoozed until: ", snoozedUntil);
+        }
+        if (today < snoozedUntil) {
+            console.log("Current date is before snoozed until date. Do nothing.");
+            return;
+        } else {
+            console.log("Current date is past snoozed until date. Ready to trigger notification!");
+        }
+        
         console.log(
           "All conditions satisfied! Triggering the notification now!"
         );
@@ -130,9 +147,6 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   }
 });
 
-// So far, the above code is passing the date and time checks
-// Without Phase 4 (Snooze button implementation), notifications are getting fired appropriately!
-
 // Helper function - Creates the Reload U-Pass notification that should be fired once all conditionals are met.
 // Notification is working fine and is displaying exactly what we need.
 function triggerReloadNotification() {
@@ -142,7 +156,7 @@ function triggerReloadNotification() {
       type: "basic",
       iconUrl: "icons/bus_notification.png",
       title: "U-Pass Reload Notification",
-      message: "Time to load next months' U-Pass!",
+      message: "It's time to load next months' U-Pass!",
       priority: 2,
       requireInteraction: true,
       silent: false,

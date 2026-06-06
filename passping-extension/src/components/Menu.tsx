@@ -29,17 +29,24 @@ function Menu() {
   const canLoad = today.getDate() >= 16;
 
   useEffect(() => {
-    chrome.storage.sync.get(["loadedMonth", "snoozedUntil"], (data) => {
-      if (data.loadedMonth === targetMonthAsString) {
-        setIsLoaded(true);
-      } else {
-        setIsLoaded(false);
-      }
+    chrome.storage.sync.get(["loadedMonth"], (data) => {
+        if (data.loadedMonth === targetMonthAsString) {
+            setIsLoaded(true);
+        } else {
+            setIsLoaded(false);
+        }
+    })
+  })
 
+  useEffect(() => {
+    chrome.storage.sync.get(["snoozedUntil"], (data) => {
       // First, check if it is a String
       if (typeof data.snoozedUntil === "string") {
         // Then, convert it into a Date object
+        // TODO:  But what time zone is this in?
         const snoozedUntil = new Date(data.snoozedUntil);
+        console.log("Retrieved snoozedUntil from storage:", snoozedUntil);
+
         if (today < snoozedUntil) {
           setIsSnoozed(true);
           setIsSnoozedMessage(true);
@@ -47,8 +54,7 @@ function Menu() {
           setIsSnoozed(false);
           chrome.storage.sync.remove("snoozedUntil");
         }
-      }
-    });
+    }})
   }, [targetMonthAsString, isSnoozedMessage, today]);
 
   return (

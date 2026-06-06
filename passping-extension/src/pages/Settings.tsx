@@ -4,23 +4,32 @@ import { FaSave } from "react-icons/fa";
 
 import "../stylesheets/Settings.css";
 
+import { getDates } from "../helpers/DateHelpers";
+
 type SettingsProps = {
   goBack: () => void;
 };
 
+// TODO: reminderFrequency will come at a later time
 type StoredSettings = {
-  reminderDate?: number;
-  reminderTime?: string;
+  reminderDate: number;
+  reminderTime: string;
+  reminderFrequency: number;
 };
 
 function Settings({ goBack }: SettingsProps) {
+
+  // Initial starting states for reminderDate and reminderTime  
   const [reminderDate, setReminderDate] = useState<number>(16); // Default to the 16th
   const [reminderTime, setReminderTime] = useState<string>("09:00"); // Default to 9 AM
 
-  //   Feature to come later  
+  const { currentMonthMaxDate } = getDates();
+
+  //   TODO:  Feature to come later  
   //   Permits the user to set the name of their school, which will be used in the reminder message.
   //   const [schoolName, setSchoolName] = useState<string>("");
 
+  // Set for the Setting Saved! message to be displayed, then automatically disappears   
   const [savedVisible, setSavedVisible] = useState<boolean>(false);
 
   // Show whether clicking Save Settings will also show the Settings Saved! delivery message
@@ -28,32 +37,33 @@ function Settings({ goBack }: SettingsProps) {
     setSavedVisible(true);
   };
 
+  // Separate out the useEffects for loading settings and for the timer to hide the saved message to prevent 
+  // potential interference.
+  useEffect(() => {
+    chrome.storage.sync.get(
+        ["reminderDate", "reminderTime"],
+        (data: StoredSettings) => {
+          setReminderDate(data.reminderDate ?? 16);
+          setReminderTime(data.reminderTime ?? "09:00");
+        }
+    );  
+  }, []);
+
   useEffect(() => {
     if (savedVisible) {
         const timer = setTimeout(() => {
             setSavedVisible(false);
-        }, 10000); // Hide the message after 5 seconds
-    
-        return () => clearTimeout(timer); // Clear the timer if the component unmounts
+        }, 10000); 
+        return () => clearTimeout(timer); // Clear timer
     }
-
-    chrome.storage.sync.get(
-      ["reminderDate", "reminderTime"],
-      (data: StoredSettings) => {
-        setReminderDate(data.reminderDate ?? 16);
-        setReminderTime(data.reminderTime ?? "09:00");
-      }
-    );
   }, [savedVisible]);
 
   const saveSettings = (e: React.SubmitEvent) => {
     e.preventDefault();
-
     chrome.storage.sync.set({
       reminderDate,
       reminderTime,
     });
-
     console.log("Settings saved:", {
       reminderDate,
       reminderTime,
@@ -77,13 +87,14 @@ function Settings({ goBack }: SettingsProps) {
           <label htmlFor="reminder-date">Reminder Date</label>
 
           {/* Set the minimum bound for the reminder date to be the 16th - Pass opens up on the 16th */}
+          {/* Then, set the MAXIMUM bound for the reminder date for the current month */}
           <input
             className="form-input"
             type="number"
             id="reminder-date"
             name="reminder-date"
             min="16"
-            max="31"
+            max={currentMonthMaxDate}
             step="1"
             value={reminderDate}
             onChange={(e) => setReminderDate(parseInt(e.target.value))}
