@@ -126,16 +126,16 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         );
 
         // Check 4: Did the user click "Snooze/Remind Me Later" on the notification? If so, we should wait 24 hours later before firing the notification again.
-        const snoozedUntil = data.snoozedUntil;
-        if (snoozedUntil != null) {
-            console.log("The snooze feature is active. Notifications to be snoozed until: ", snoozedUntil);
-        }
-        if (today < snoozedUntil) {
-            console.log("Current date is before snoozed until date. Do nothing.");
-            return;
-        } else {
-            console.log("Current date is past snoozed until date. Ready to trigger notification!");
-        }
+        // const snoozedUntil = data.snoozedUntil;
+        // if (snoozedUntil != null) {
+        //     console.log("The snooze feature is active. Notifications to be snoozed until: ", snoozedUntil);
+        // }
+        // if (today < snoozedUntil) {
+        //     console.log("Current date is before snoozed until date. Do nothing.");
+        //     return;
+        // } else {
+        //     console.log("Current date is past snoozed until date. Ready to trigger notification!");
+        // }
         
         console.log(
           "All conditions satisfied! Triggering the notification now!"

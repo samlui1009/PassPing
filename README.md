@@ -59,18 +59,44 @@ Google Chrome's <code>chrome.storage</code> API. See below for more details.</p>
 <p>Chrome comes equipped with a number of APIs that can be used for development. You can define these in your <code>manifest.json</code> file.</p>
 
 #### Notifications 
-<p></p>
+<p>The notifications API functions to display notifications for a users' system tray. In accordance to <a href="https://m2kdevelopments.medium.com/14-understanding-chrome-extensions-notifications-3e32a5d4cf00">this Medium article</a>,
+4 different notification types exist. For PassPing, I created a basic notification, which includes an image for an icon, title and 
+corresponding message. Code implementation for PassPings' reload notification can be found in <code>background.js</code>. There are also 
+3 additional parameters that were included here:</p>
+
+<ul>
+<li>priority:  Can take on any value in between the range of -2 to 2. This controls the visibility duration and system tray placement of 
+the notification on a users' device. Here, the value was set to 2.</li>
+<li>requireInteraction:  This enforces the notification pop-up to persist on the screen until the user clicks or dismisses it. 
+By default, it is set to false, which indicates that the notification will be automatically dismissed after a short timeframe. When set to 
+true, it prevents the auto-dismissal of the notification. Since there is a guard in place to silence notifications and the background service worker only fires at 3-hour increments, this parameter was set to true.</li>
+<li>silent:  This parameter, when set to True, mutes the alert without playing the system notification sound. In this case, silent was set to 
+false.</li>
+</ul>
 
 #### Alarms 
-<p></p>
+<p>The alarms API functions to schedule code to execute at preset timeframes. Note that Chrome alarms continue to run, even while the users' device is put to sleep. As <a href="https://dev.to/scriptjsh/deep-dive-into-chrome-alarm-api-scheduling-timed-events-in-chrome-extensions-2glc">this article</a> simply states, it is synonymous to "having an alarm clock inside your Google extension". </p>
+<p>For PassPing, a singular alarm was created in <code>background.js</code>. The alarm was the ideal solution for our task of sending U-Pass renewal reminders to the student. We use <code>chrome.alarms.create</code> to instantiate an alarm, and then specify <code>periodInMinutes</code> to dictate how many times it should repeat after the initial event.</p>
+<p>Subsequently, we then call <code>chrome.alarms.onAlarm.addListener</code>, which contains code that will be executed when the alarm is triggered and fired. Here, multiple guards are put in place, including checks for:</p>
+
+<ul>
+<li>If the current date is less than the 16th of each month;</li>
+<li>If the current date is equal to the users' set reminder date;</li>
+<li>If it is the right time to be sending notifications;</li>
+<li>If the Snooze Until Tomorrow button has been activated, and,</li>
+<li>If next months' U-Pass has already been loaded.</li>
+</ul>
+
+<p>Once all checks have passed, it calls the notification method, triggering the callback successfully.</p>
 
 #### Storage
-<p></p>
+<p>Asides from the users' preferred reminder date and time, PassPing is designed to store very minimal amounts of data. As such, the ideal solution to be used here to ensure that the aforementioned settings get persisted for each user was to use <code>chrome.storage</code>. <a href="https://m2kdevelopments.medium.com/12-understanding-chrome-extensions-storage-93f0e3daa67e">This article</a> extensively compares the difference between using <code>window.localStorage</code>, as well as additional information on how it can be used effectively.</p>
+<p>While there are 4 different storage areas, I used <code>sync</code> to ensure that data gets stored locally, then syncs with all Chrome browsers the user is logged into. Note the different usages of set and get, which can write new data to storage, and retrieve data, respectively.</p>
 
 ## Dependencies 
 <p>Not many new dependencies were utilized for developing this project. <b>React-Icons</b> was previously employed in former projects. Both of these dependencies were utilized to include commonly-used icons into the extension, providing it with a much more vibrant and stimulating UI for the end-user.</p>
 
-<p><b>date-fns</b>:  </p>
+<p><b>date-fns</b>: During the initial stages of building, JavaScript's Date() object and its relevant methods were used. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">This article</a> covers more information on its general background and usage. However, further research soon revealed that this was not the most ideal solution, given its many problems (I.e., Mutability, lack of support for non-local timezones, inconsistent parsing and 0-indexed months). As such, an alternative package was utilized. With <b>date-fns</b>, it offers a more elegant solution to date manipulations. While complex manipulations were not required for PassPing, it was noticeably much easier to use, especially in terms of formatting.</p>
 
 ## Current Functionalities
 ### Home Page
@@ -152,6 +178,9 @@ Google Chrome's <code>chrome.storage</code> API. See below for more details.</p>
 <ol>
     <li>https://developer.chrome.com/docs/extensions/reference/api/notifications</li>
     <li>https://m2kdevelopments.medium.com/13-understanding-chrome-extensions-alarms-74a4f4ea81d8</li>
+    <li>https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API</li>
+    <li>https://m2kdevelopments.medium.com/13-understanding-chrome-extensions-alarms-74a4f4ea81d8</li>
+    <li>https://javascript-conference.com/blog/why-you-should-use-date-fns-for-manipulating-dates-with-javascript/</li>
 </ol>
 
 ### Publishing onto the Google Chrome Store
