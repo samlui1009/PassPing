@@ -1,36 +1,49 @@
-import chrome from "chrome";
-import { getDates } from "../helpers/DateHelpers";
-
 console.log("PassPing background listener loaded");
 
-const { 
-    today, 
-    tomorrow, 
-    targetMonthAsString } = getDates();
+const today = new Date();
+const tomorrow = new Date(today);
+tomorrow.setDate(today.getDate() + 1);
 
-// This is our U-Pass alarm that gets fired. For development purposes, it's set to fire every minute starting immediately.
-// Upon deployment, fire the alarm every 3 hours (180 minutes)
-// The alarm will trigger a notification reminding users to reload their U-Pass for the next month
-// TODO:  - Potentially make this more dynamic by allowing users to set the alarm frequency
-chrome.alarms.create("upassReloadReminder", {
-  when: today, 
-  periodInMinutes: 1
+const targetMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+const targetMonthAsString = targetMonth.toLocaleDateString("en-CA", {
+  month: "long",
+  year: "numeric",
 });
 
 // We use this listener to set default values for the reminder date and time when the extension is installed.
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.get(["reminderDate", "reminderTime"], (data) => {
-    if (data.reminderDate == null && data.reminderTime == null) {
-      chrome.storage.sync.set(
-        {
-          reminderDate: 16,
-          reminderTime: "09:00",
-        },
-        () => {
-          console.log("Default settings saved on install.");
-        }
-      );
+  chrome.storage.sync.get(
+    ["reminderDate", "reminderTime", "reminderFrequency"],
+    (data) => {
+      if (
+        data.reminderDate == null &&
+        data.reminderTime == null &&
+        data.reminderFrequency == null
+      ) {
+        chrome.storage.sync.set(
+          {
+            reminderDate: 16,
+            reminderTime: "09:00",
+            reminderFrequency: 1,
+          },
+          () => {
+            console.log("Default settings saved on install.");
+            console.log("Default reminder date:", reminderDate);
+            console.log("Default reminder time:", reminderTime);
+            console.log("Default reminder frequency: ", reminderFrequency);
+          }
+        );
+      }
+      reminderFrequency = reminderFrequency * 60;
     }
+  );
+  // This is our U-Pass alarm that gets fired. For development purposes, it's set to fire every minute starting immediately.
+  // Upon deployment, fire the alarm every 3 hours (180 minutes)
+  // The alarm will trigger a notification reminding users to reload their U-Pass for the next month
+  // Because the alarm is set to fire in units of minutes, that means we need to multiply by 60 to convert hours to minutes for the reminder frequency. For example, if the user sets a reminder frequency of 3 hours, we need to set the alarm to fire every 180 minutes (3 hours * 60 minutes/hour).
+  chrome.alarms.create("upassReloadReminder", {
+    when: today.getTime(),
+    periodInMinutes: reminderFrequency,
   });
 });
 
@@ -41,7 +54,8 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     console.log("U-Pass renewal alarm has been fired!");
 
     chrome.storage.sync.get(
-      ["reminderDate", "reminderTime", "loadedMonth", "snoozedUntil"], (data) => {
+      ["reminderDate", "reminderTime", "loadedMonth", "snoozedUntil"],
+      (data) => {
         const reminderDate = data.reminderDate;
         const reminderTime = data.reminderTime;
 
@@ -52,7 +66,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         console.log("Reminder day:", reminderDate);
 
         // Check 0: Is the current date LESS than the 16th? If so, do nothing and break here. We can't proceed as next months' pass isn't valid yet.
-        if (today < 16) {
+        if (today.getDate() < 16) {
           console.log("Next months' U-Pass is not available yet. Do nothing.");
           return;
         }
@@ -60,7 +74,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         console.log("Current date is past the 16th — ready for next checks!");
 
         // Check 1: Is it the right date yet?
-        if (today < reminderDate) {
+        if (today.getDate() < reminderDate.getDate()) {
           console.log(
             "It is not yet the users' set reminder date. Do nothing."
           );
@@ -104,7 +118,11 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         // Check 3a: Is next months' pass already loaded?
 
         // Determine the target month based on the current date and the user's specified reminder date.
-        const targetDate = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+        const targetDate = new Date(
+          today.getFullYear(),
+          today.getMonth() + 1,
+          1
+        );
         const targetMonthKey = `${String(targetDate.getMonth() + 1).padStart(
           2,
           "0"
@@ -126,17 +144,17 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         );
 
         // Check 4: Did the user click "Snooze/Remind Me Later" on the notification? If so, we should wait 24 hours later before firing the notification again.
-        const snoozedUntil = data.snoozedUntil;
-        if (snoozedUntil != null) {
-            console.log("The snooze feature is active. Notifications to be snoozed until: ", snoozedUntil);
-        }
-        if (today < snoozedUntil) {
-            console.log("Current date is before snoozed until date. Do nothing.");
-            return;
-        } else {
-            console.log("Current date is past snoozed until date. Ready to trigger notification!");
-        }
-        
+        // const snoozedUntil = data.snoozedUntil;
+        // if (snoozedUntil != null) {
+        //     console.log("The snooze feature is active. Notifications to be snoozed until: ", snoozedUntil);
+        // }
+        // if (today < snoozedUntil) {
+        //     console.log("Current date is before snoozed until date. Do nothing.");
+        //     return;
+        // } else {
+        //     console.log("Current date is past snoozed until date. Ready to trigger notification!");
+        // }
+
         console.log(
           "All conditions satisfied! Triggering the notification now!"
         );

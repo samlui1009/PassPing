@@ -3,26 +3,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 10px;
+  gap: 8px;
+  padding: 6px;
 }
 
 .icon {
-  width: 24px;
-  height: 24px;
-  padding: 8px;
+  padding: 4px;
   background: none;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-}
-
-.icon-div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  font-size: 16px;
 }
 
 .status-div {
@@ -31,9 +23,9 @@
   justify-content: center;
   gap: 8px;
 
-  width: 40%;
+  width: 50%;
   margin: 0 auto 20px auto;
-  padding: 10px 10px;
+  padding: 6px;
 
   background-color: #dce8d8;
   border-radius: 10px;
@@ -43,29 +35,34 @@
 }
 
 .status-div.loaded {
-    background-color: #7de07d;
+  background-color: #7de07d;
 }
 
 .status-div.not-loaded {
-    background-color: #ca6e6e;
+  background-color: #ca6e6e;
 }
 
-.mark-loaded-btn {
+.mark-loaded-btn,
+.menu-btn,
+.snooze-btn {
   display: flex;
   text-align: left;
   line-height: 1.2;
   justify-content: flex-start;
   align-items: center;
-  gap: 16px;
-  width: 300px;
-  background-color: #a9d8b8;
+  gap: 10px;
+  width: 275px;
   border-radius: 2px;
-  border: 4px solid rgba(62, 195, 95, 0.423);
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
-  padding: 10px;
+  padding: 4px 4px 4px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
   transition: background-color 0.5s ease;
+}
+
+.mark-loaded-btn {
+  background-color: #a9d8b8;
+  border: 4px solid rgba(62, 195, 95, 0.423);
 }
 
 .mark-loaded-btn:hover {
@@ -82,54 +79,8 @@
 }
 
 .menu-btn {
-  display: flex;
-  text-align: left;
-  line-height: 1.2;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 16px;
-  width: 300px;
   background-color: #89c2fa;
-  border-radius: 2px;
-  border: 4px solid rgba(115, 129, 142, 0.423);
-  font-size: 16px;
-  cursor: pointer;
-  padding: 10px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-  transition: background-color 0.5s ease;
-}
-
-.snooze-btn {
-  display: flex;
-  text-align: left;
-  line-height: 1.2;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 16px;
-  width: 300px;
-  background-color: #3a3f45;
-  color: #fff;
-  border-radius: 2px;
-  border: 4px solid rgba(28, 27, 27, 0.423);
-  font-size: 16px;
-  cursor: pointer;
-  padding: 10px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-  transition: background-color 0.5s ease;
-}
-
-.snooze-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
-  background-color: #323334e8;
-}
-
-.snooze-btn[disabled] {
-  background-color: #070b11;
-  opacity: 0.50;
-  border-color: rgba(18, 18, 18, 0.123);
-  cursor: not-allowed;
-  box-shadow: none;
+  border: 4px solid rgba(84, 146, 204, 0.423);
 }
 
 .menu-btn:focus {
@@ -142,8 +93,26 @@
   background-color: #4c8dff;
 }
 
+.snooze-btn {
+  background-color: #3a3f45;
+  color: #fff;
+}
+
+.snooze-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+  background-color: #323334e8;
+}
+
+.snooze-btn[disabled] {
+  background-color: #070b11;
+  opacity: 0.5;
+  border-color: rgba(18, 18, 18, 0.123);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 .snoozed-msg-ctn {
-    padding: 10px;
-    font-size: 16px;
-    margin-top: 10px;
+  padding: 8px;
+  margin-top: 8px;
 }

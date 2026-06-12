@@ -7,14 +7,16 @@ import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 
 import "../stylesheets/Menu.css";
 
-import { handleOnClickToUpassWebsite, handleDisableSnoozedButtonState, handleSnoozedUntil, handleMarkAsLoaded } from "../helpers/MenuHelpers";
+import {
+  handleOnClickToUpassWebsite,
+  handleDisableSnoozedButtonState,
+  handleSnoozedUntil,
+  handleMarkAsLoaded,
+} from "../helpers/MenuHelpers";
 import { getDates } from "../helpers/DateHelpers";
 
 function Menu() {
-
-  const { today, 
-          tomorrow, 
-          targetMonthAsString } = getDates();
+  const { today, tomorrow, targetMonthAsString } = getDates();
 
   // Starting state for now is that pending U-Pass is NOT loaded
   const [isLoaded, setIsLoaded] = useState(false);
@@ -25,18 +27,18 @@ function Menu() {
   // Starting state for displaying a transient message that should be displayed to the user at the very bottom of the extension
   const [isSnoozedMessage, setIsSnoozedMessage] = useState(false);
 
-  // Recall: getDate() returns back the NUMERICAL date   
+  // Recall: getDate() returns back the NUMERICAL date
   const canLoad = today.getDate() >= 16;
 
   useEffect(() => {
     chrome.storage.sync.get(["loadedMonth"], (data) => {
-        if (data.loadedMonth === targetMonthAsString) {
-            setIsLoaded(true);
-        } else {
-            setIsLoaded(false);
-        }
-    })
-  })
+      if (data.loadedMonth === targetMonthAsString) {
+        setIsLoaded(true);
+      } else {
+        setIsLoaded(false);
+      }
+    });
+  });
 
   useEffect(() => {
     chrome.storage.sync.get(["snoozedUntil"], (data) => {
@@ -54,7 +56,8 @@ function Menu() {
           setIsSnoozed(false);
           chrome.storage.sync.remove("snoozedUntil");
         }
-    }})
+      }
+    });
   }, [targetMonthAsString, isSnoozedMessage, today]);
 
   return (
@@ -62,7 +65,7 @@ function Menu() {
       <div>
         {/* Applied conditional CSS styling to either a "Loaded" or "Not Loaded" state
         If it is LOADED, it displays as green. If it is NOT loaded, it displays as red. */}
-        <div className={`status-div ${isLoaded ? 'loaded' : 'not-loaded'}`}>
+        <div className={`status-div ${isLoaded ? "loaded" : "not-loaded"}`}>
           {!isLoaded && (
             <>
               <FaRegCircleXmark className="icon"></FaRegCircleXmark>
@@ -105,8 +108,18 @@ function Menu() {
         <div>
           <button
             className="snooze-btn"
-            onClick = {() => handleSnoozedUntil(isLoaded, isSnoozed, setIsSnoozed, setIsSnoozedMessage, tomorrow)}
-            disabled={!canLoad || handleDisableSnoozedButtonState(isLoaded, isSnoozed)}
+            onClick={() =>
+              handleSnoozedUntil(
+                isLoaded,
+                isSnoozed,
+                setIsSnoozed,
+                setIsSnoozedMessage,
+                tomorrow
+              )
+            }
+            disabled={
+              !canLoad || handleDisableSnoozedButtonState(isLoaded, isSnoozed)
+            }
           >
             <FaBell className="icon"></FaBell>Snooze Until Tomorrow
           </button>
@@ -117,26 +130,30 @@ function Menu() {
         {isSnoozedMessage && isSnoozed && !isLoaded && (
           <div className="snoozed-msg-ctn">
             <h3 className="snoozed-message">Snoozed until tomorrow!</h3>
-            <p>You will be reminded again tomorrow to load next month's U-Pass.</p>
+            <p>
+              You will be reminded again tomorrow to load next month's U-Pass.
+            </p>
           </div>
         )}
 
         {/* If we CANNOT load the U-Pass (As in, the date is too early), display this warning message at the bottom of extension. */}
         {!canLoad && (
-            <div className="too-early-msg-ctn">
-                <p style={
-                    {
-                        fontSize: "18px",
-                        maxWidth: "350px",
-                    }
-                }>
-                    It's too early to load next months' U-Pass! 
-                    Come back on the 16th. 🚍
-                </p>
-            </div>
+          <div className="too-early-msg-ctn">
+            <p
+              style={{
+                fontSize: "15px",
+                gap: "2px",
+                maxWidth: "325px",
+              }}
+            >
+              It's too early to load next months' U-Pass!
+              <br>
+              </br>
+              Come back on your set reminder date. 🚍
+            </p>
+          </div>
         )}
       </div>
-
     </>
   );
 }
