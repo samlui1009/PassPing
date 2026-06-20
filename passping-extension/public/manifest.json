@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "PassPing",
-  "version": "1.0.0",
-  "description": "Passping is a Google Chrome extension that helps remind post-secondary students to reload next months' U-Pass. Never forget your reload again!",
+  "version": "1.0.1",
+  "description": "Passping is designed to remind post-secondary students of next months' U-Pass reloads.",
   "action": {
     "default_popup": "index.html",
     "default_title": "PassPing Reminder",

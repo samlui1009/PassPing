@@ -10,6 +10,29 @@ const targetMonthAsString = targetMonth.toLocaleDateString("en-CA", {
   year: "numeric",
 });
 
+// Function: Creates/recreates the U-Pass reload reminder alarm
+function scheduleUpassAlarm() {
+  chrome.storage.sync.get(
+    ["reminderDate", "reminderTime", "reminderFrequency"],
+    (data) => {
+      const reminderDate = data.reminderDate ?? 16;
+      const reminderTime = data.reminderTime ?? "09:00";
+      const reminderFrequency = data.reminderFrequency ?? 1;
+
+      const frequencyMinutes = reminderFrequency * 60;
+
+      chrome.alarms.create("upassReloadReminder", {
+        when: today.getTime(),
+        periodInMinutes: frequencyMinutes,
+      });
+        console.log("U-Pass reload reminder alarm scheduled with the following settings:");
+        console.log("Reminder date:", reminderDate);
+        console.log("Reminder time:", reminderTime);
+        console.log("Reminder frequency (in hours):", reminderFrequency);
+    }
+  );
+}
+
 // We use this listener to set default values for the reminder date and time when the extension is installed.
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.get(
@@ -28,23 +51,15 @@ chrome.runtime.onInstalled.addListener(() => {
           },
           () => {
             console.log("Default settings saved on install.");
-            console.log("Default reminder date:", reminderDate);
-            console.log("Default reminder time:", reminderTime);
-            console.log("Default reminder frequency: ", reminderFrequency);
+            scheduleUpassAlarm();
           }
         );
       }
-      reminderFrequency = reminderFrequency * 60;
+      else (
+        scheduleUpassAlarm()
+      )
     }
   );
-  // This is our U-Pass alarm that gets fired. For development purposes, it's set to fire every minute starting immediately.
-  // Upon deployment, fire the alarm every 3 hours (180 minutes)
-  // The alarm will trigger a notification reminding users to reload their U-Pass for the next month
-  // Because the alarm is set to fire in units of minutes, that means we need to multiply by 60 to convert hours to minutes for the reminder frequency. For example, if the user sets a reminder frequency of 3 hours, we need to set the alarm to fire every 180 minutes (3 hours * 60 minutes/hour).
-  chrome.alarms.create("upassReloadReminder", {
-    when: today.getTime(),
-    periodInMinutes: reminderFrequency,
-  });
 });
 
 // This is the alarm listener that listens for the "upassReloadReminder" alarm and logs a message when it fires.
@@ -74,7 +89,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         console.log("Current date is past the 16th — ready for next checks!");
 
         // Check 1: Is it the right date yet?
-        if (today.getDate() < reminderDate.getDate()) {
+        if (today.getDate() < reminderDate) {
           console.log(
             "It is not yet the users' set reminder date. Do nothing."
           );
