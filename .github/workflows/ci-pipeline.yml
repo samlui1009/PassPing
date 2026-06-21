@@ -1,0 +1,74 @@
+name: Build PassPing Extension
+on:
+    workflow_dispatch: 
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+jobs:
+  build-extension:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./passping-extension
+
+    steps:
+        # The first step to the GitHub CI pipeline:  Check-out the code from the repository to the runner.
+        # Runner def'n:  The virtual machine or container that runs the jobs INSIDE the pipeline.
+        # From above, we defined "ubuntu-latest", which is a specific runner LABEL.
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      # Troubleshooting  
+      - run: echo "Repository has been checked out successfully."
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+            node-version: 22
+            cache-dependency-path: ./passping-extension/package-lock.json
+            cache: 'npm'
+
+      # Troubleshooting  
+      - run: echo "Node.js has been set up successfully."
+
+      # This stands for npm CLEAN install - It is designed for automated environments, ensuring 
+      # reproducible builds, installing dependencies as per the dependency tree in our 
+      # package-lock.json file. 
+      - name: Install required dependencies
+        run: npm ci
+    
+      # Troubleshooting
+      - run: echo "All dependencies have been successfully installed."
+      
+      # As per Google, note that your ZIP file created is short-lived and gets destroyed 
+      # after the workflow is done. 
+      # https://github.com/orgs/community/discussions/26174
+      - name: Build ZIP file for extension 
+        run: npm run build:zip --if-present
+
+      # Troubleshooting
+      - run: echo "Extension has been successfully built and zipped."   
+
+      # Step-by-step process:
+      #  cd into the 'build' directory. 
+      #  Then, create a ZIP file named 'build.zip' in the root directory, containing all the files from the 'build' directory.
+      - name: Create ZIP file
+        run: |
+            cd build 
+            zip -r ../passping-ext-build.zip ./*
+    
+      # Troubleshooting 
+      - run: echo "ZIP file has been saved to the root directory."   
+
+      # Upload the ZIP file as an artifact to the GitHub Actions workflow, making it available for download after the workflow completes.
+      # Keep the artifact for 1 day before it gets automatically deleted as a temporary test.  
+      - name:  Upload ZIP file as artifact 
+        uses: actions/upload-artifact@v4
+        with:
+            name: passping-extension-build
+            path: passping-extension/passping-ext-build.zip
+            retention-days: 1
+        
+      - run: echo "All steps in the pipeline have been successfully executed!"
