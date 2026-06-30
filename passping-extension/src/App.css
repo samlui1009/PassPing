@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
 #root {
   width: 400px;
@@ -12,21 +12,15 @@
 }
 
 body {
-  font-family: "Sniglet", system-ui;
-}
-
-h1 {
-  font-size: 30px;
-  color: #5f8fd8;
-  margin-bottom: 10px;
+  font-family: "Outfit", sans-serif;
 }
 
 button {
-  font-family: "Sniglet", system-ui;
+  font-family: "Outfit", sans-serif;
 }
 
 .divider {
   height: 4px;
   background: #afb8c4;
-  margin: 14px 0 18px;
+  margin: 12px 0 14px;
 }

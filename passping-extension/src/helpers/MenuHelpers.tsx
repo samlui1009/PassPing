@@ -25,9 +25,9 @@ export const handleSnoozedUntil = (isLoaded: boolean, isSnoozed: boolean,
 // If the monthly pass has already been loaded, OR, if button was clicked and triggered a "Snooze Until Tomorrow".
 export const handleDisableSnoozedButtonState = (loadedPass: boolean, isSnoozed: boolean) => {
     if (loadedPass || isSnoozed) {
-      return true; // Disable if loaded
+      return true; 
     } else {
-      return false; // Enable otherwise
+      return false; 
     }
 };
 

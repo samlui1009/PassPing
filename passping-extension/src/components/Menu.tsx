@@ -18,16 +18,10 @@ import { getDates } from "../helpers/DateHelpers";
 function Menu() {
   const { today, tomorrow, targetMonthAsString } = getDates();
 
-  // Starting state for now is that pending U-Pass is NOT loaded
   const [isLoaded, setIsLoaded] = useState(false);
-
-  // Starting state for the "Remind Me Later" button is that it is NOT snoozed
   const [isSnoozed, setIsSnoozed] = useState(false);
-
-  // Starting state for displaying a transient message that should be displayed to the user at the very bottom of the extension
   const [isSnoozedMessage, setIsSnoozedMessage] = useState(false);
 
-  // Recall: getDate() returns back the NUMERICAL date
   const canLoad = today.getDate() >= 16;
 
   useEffect(() => {
@@ -42,10 +36,7 @@ function Menu() {
 
   useEffect(() => {
     chrome.storage.sync.get(["snoozedUntil"], (data) => {
-      // First, check if it is a String
       if (typeof data.snoozedUntil === "string") {
-        // Then, convert it into a Date object
-        // TODO:  But what time zone is this in?
         const snoozedUntil = new Date(data.snoozedUntil);
         console.log("Retrieved snoozedUntil from storage:", snoozedUntil);
 
@@ -63,8 +54,6 @@ function Menu() {
   return (
     <>
       <div>
-        {/* Applied conditional CSS styling to either a "Loaded" or "Not Loaded" state
-        If it is LOADED, it displays as green. If it is NOT loaded, it displays as red. */}
         <div className={`status-div ${isLoaded ? "loaded" : "not-loaded"}`}>
           {!isLoaded && (
             <>
@@ -102,9 +91,6 @@ function Menu() {
           Website
         </button>
 
-        {/* This is the "Snooze Until Tomorrow" button. Upon clicking, it should handle the 
-        handleSnoozeUntil method. This button should also be disabled IF it is NOT yet the 16th of the month, 
-        or if any of the if/else conditions are triggered inside the handleDisableSnoozedButtonState method */}
         <div>
           <button
             className="snooze-btn"
@@ -125,8 +111,6 @@ function Menu() {
           </button>
         </div>
 
-        {/* If the Snooze button is clicked, next months' U-Pass is NOT loaded, and we wish to display the "Is Snoozed" message,
-        display the following message at the bottom of extension. */}
         {isSnoozedMessage && isSnoozed && !isLoaded && (
           <div className="snoozed-msg-ctn">
             <h3 className="snoozed-message">Snoozed until tomorrow!</h3>
@@ -136,7 +120,6 @@ function Menu() {
           </div>
         )}
 
-        {/* If we CANNOT load the U-Pass (As in, the date is too early), display this warning message at the bottom of extension. */}
         {!canLoad && (
           <div className="too-early-msg-ctn">
             <p

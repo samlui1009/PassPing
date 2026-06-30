@@ -112,10 +112,7 @@ false.</li>
             required.</p>
         </li>
         <li><b>Snooze Until Tomorrow</b>:
-            <p>A new feature that was implemented to silence notifications temporarily under the condition if next months' pass has NOT been loaded. I designed this to ensure that users are not bombarded by notifications consistently, especially if they are unable to reload their U-Pass in the immediate timeframe. This does reset itself for the next day, resuming notification delivery. See below for an example.</p>
-            <p align="center">
-                <img src="project-assets\passping-snoozedconfirmation.png" width="350px;">
-            </p>
+            <p>A new feature that was implemented to silence notifications temporarily under the condition if next months' pass has NOT been loaded. I designed this to ensure that users are not bombarded by notifications consistently, especially if they are unable to reload their U-Pass in the immediate timeframe. This does reset itself for the next day, resuming notification delivery.</p>
         </li>
     </ol>
 </p> 
@@ -123,43 +120,48 @@ false.</li>
 ### Settings 
 <p>Clicking the Settings button in the header of the home page will link to a separate page on the extension that allows users to edit their reminder date and reminder time preferences.</p>
 <p>The reminder date and time have default starting settings of the 16th and 9:00 AM, respectively. The 16th was selectively chosen, given that Translink U-Pass reloads only start then.</p> 
+<p>A setting for the users' preferred reminder frequency was also recently implemented. It allows users to set a reminder frequency as an integer - one, meaning that notifications are sent once every hour, capped to a maximum value of 4 (1 notification sent every 4 hours).</p>
 
 <p align="center">
     <img src="project-assets\passping-settings.png" width="350px;">
 </p>
 
-<p>However, these values can be edited very easily with different valid inputs. See below for an example. You can then click the Save Settings button at the very bottom of the page to save these, with a transient confirmation message that will display the newly saved settings.</p>
-
-<p align="center">
-    <img src="project-assets\passping-settingsconfirmation.png" width="350px;">
-</p>
+<p>However, these values can be edited very easily with different valid inputs. See below for an example. You can then click the Save Settings button at the very bottom of the page to save these, with a transient confirmation message that displays a confirmation message that disappears thereafter.</p>
 
 ## Future Improvements 
 <ol>
     <li>Customizable notification delivery times
         <p>Currently, the default setting for the alarm to fire and send notifications is programmed for every 3 hours. However, the 
         functionality could be improved with a more tailored approach by letting users customize how often they would like to receive 
-        these notifications. This feature is currently in planning for the next iteration once the baseline functionalities are optimized.</p>
+        these notifications.</p>
+        <p>As of <b>June 2026</b>: This functionality has now been successfully integrated! Users can pre-set the notification reminder frequency, starting at once per hour, capped to a maximum of once every 4 hours.</p>
     </li>
     <li>Potential semi-automation (Selenium, Playwright)
+        <p>Work in progress.</p>
     </li>
 </ol>
 
 ## How to Use
-<p>As of <b>August 2026</b>, PassPing is now available on the Chrome Extension store for download! :D</p>
+<p>As of <b>July 2026</b>, PassPing is now available on the Chrome Extension store for download! :D</p>
 <p>To use, simply install the extension. You can find it by searching PassPing in the Chrome store search bar, or click here to directly access the extension: </p>
 
 <b><p>Download link coming soon!</p></b>
+
+<p>Please note that you need to enable notifications on your local machines' system in order to trigger the "toast" popup.</p>
+
+<p>For <b>Windows</b>:  Ensure that notifications are toggled as <b>"On"</b> for Google Chrome. Additionally, enable notification banners and notifications to be shown in the notification centre.</p>
+
+<p>For <b>MacOS</b>: Click into your system settings, followed by Notifications. Scroll down to find Google Chrome, and toggle "ON" for <b>Allow Notifications</b>. Ensure that you choose <b>Persistent</b> for Alert Style. For additional troubleshooting, be sure to consult this guide <a href="https://support.apple.com/en-ca/guide/mac-help/mh40583/mac">here</a>.</p>
 
 ### Try It Yourself - Instructions for Set-Up 
 <ul>
 <li>As mentioned above, a default reminder date and default reminder time have already been set up to the 16th and 9:00 AM PST, respectively. To change these, simply input your preferred parameters and click Save Settings. This will save your preferences directly.</li>
 </ul>
 
-<p>I am always open to feedback and improvements on how to make PassPing even better for students. Please feel free to contact the e-mail in my GitHub to get in touch!</p>
+<p>I am always open to feedback and improvements on how to make PassPing even better for students. Please feel free to contact me via e-mail to get in touch!</p>
 
 ## Thank You!
-<p>Finally, thank you so much for installing and trying out my first Google extension. Additionally, huge kudos to my fellow testers and for providing such useful feedback: lada496, ajarodpaulson and behold_mycode. Happy transiting! 🚌🚏</p>
+<p>Finally, thank you so much for installing and trying out my first Google extension. Additionally, huge kudos to my fellow testers and for providing such useful feedback: <a href="https://github.com/ajarodpaulson">ajarodpaulson</a>, <a href="https://github.com/behold-mycode">behold_mycode</a>, <a href="https://github.com/Lada496">lada496</a> and <a href="https://github.com/steph-xue">steph-xue</a>. Happy transiting! 🚌🚏</p>
 
 ## References
 

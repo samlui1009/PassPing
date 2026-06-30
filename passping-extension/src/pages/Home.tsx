@@ -1,8 +1,7 @@
 import "../stylesheets/Home.css";
+
 import Menu from "../components/Menu";
 import Header from "../components/Header";
-
-// import Icon from "../assets/passping_icon.png";
 
 type HomeProps = {
   goToSettings: () => void;
@@ -13,15 +12,11 @@ function Home({ goToSettings }: HomeProps) {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
 
-  // For UI    
-  // Displays the current month and year in the format "Month Year", e.g. "September 2024", which will be displayed on the homepage
   const currentMonthName = currentDate.toLocaleString("en-US", {
     month: "long",
     timeZone: "America/Los_Angeles"
   });
 
-  // For UI    
-  // Displays the next month and year in the format "Month Year", e.g. "October 2024", which will be used to determine if the U-Pass for the next month has been loaded   
   const nextMonthDate = currentDate;
   nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
   const nextMonthName = nextMonthDate.toLocaleString("en-US", {
@@ -29,7 +24,6 @@ function Home({ goToSettings }: HomeProps) {
     timeZone: "America/Los_Angeles"
   });
 
-  // String-versions of current month and next month   
   const currentMonth = currentMonthName + " " + currentYear;
   const nextMonth = nextMonthName + " " + currentYear;
 

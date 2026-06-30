@@ -10,7 +10,6 @@ type SettingsProps = {
   goBack: () => void;
 };
 
-// TODO: reminderFrequency will come at a later time
 type StoredSettings = {
   reminderDate: number;
   reminderTime: string;
@@ -19,27 +18,18 @@ type StoredSettings = {
 
 function Settings({ goBack }: SettingsProps) {
 
-  // Initial starting states for reminderDate and reminderTime  
-  const [reminderDate, setReminderDate] = useState<number>(16); // Default to the 16th
-  const [reminderTime, setReminderTime] = useState<string>("09:00"); // Default to 9 AM
-  const [reminderFrequency, setReminderFrequency] = useState<number>(1); // Default to 1 reminder per day
+  const [reminderDate, setReminderDate] = useState<number>(16); 
+  const [reminderTime, setReminderTime] = useState<string>("09:00"); 
+  const [reminderFrequency, setReminderFrequency] = useState<number>(1); 
 
   const { currentMonthMaxDate } = getDates();
 
-  //   TODO:  Feature to come later  
-  //   Permits the user to set the name of their school, which will be used in the reminder message.
-  //   const [schoolName, setSchoolName] = useState<string>("");
-
-  // Set for the Setting Saved! message to be displayed, then automatically disappears   
   const [savedVisible, setSavedVisible] = useState<boolean>(false);
 
-  // Show whether clicking Save Settings will also show the Settings Saved! delivery message
   const toggleSavedVisibility = () => {
     setSavedVisible(true);
   };
 
-  // Separate out the useEffects for loading settings and for the timer to hide the saved message to prevent 
-  // potential interference.
   useEffect(() => {
     chrome.storage.sync.get(
         ["reminderDate", "reminderTime", "reminderFrequency"],
@@ -56,7 +46,7 @@ function Settings({ goBack }: SettingsProps) {
         const timer = setTimeout(() => {
             setSavedVisible(false);
         }, 10000); 
-        return () => clearTimeout(timer); // Clear timer
+        return () => clearTimeout(timer); 
     }
   }, [savedVisible]);
 
@@ -90,8 +80,6 @@ function Settings({ goBack }: SettingsProps) {
         <form className="settings-form" onSubmit={saveSettings}>
           <label className="form-label" htmlFor="reminder-date">Reminder Date</label>
 
-          {/* Set the minimum bound for the reminder date to be the 16th - Pass opens up on the 16th */}
-          {/* Then, set the MAXIMUM bound for the reminder date for the current month */}
           <input
             className="form-input"
             type="number"
@@ -136,8 +124,8 @@ function Settings({ goBack }: SettingsProps) {
             onChange={(e) => setReminderFrequency(parseInt(e.target.value))}
           />
           <p className="addnl-notes">
-            Set the frequency for reminders to be sent. The default is once per hour, 
-            capped to a maximum of once every 4 hours.
+            Set your preferred reminder frequency. The default is once per hour, 
+            capped to a max of once every 4 hours.
           </p>
 
           <div className="save-btn-div">
