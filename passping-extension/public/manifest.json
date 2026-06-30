@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "PassPing",
   "version": "1.0.1",
-  "description": "Passping is designed to remind post-secondary students of next months' U-Pass reloads.",
+  "description": "Designed for post-secondary students in the Lower Mainland. Never forget next months' U-Pass reloads again!",
   "action": {
     "default_popup": "index.html",
     "default_title": "PassPing Reminder",
