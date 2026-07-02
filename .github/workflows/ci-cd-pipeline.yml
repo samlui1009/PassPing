@@ -78,7 +78,7 @@ jobs:
             echo "PassPing artifact existence verified. Proceeding to deployment."
 
       - name:  Google Chrome Web Store Upload
-        run: npx chrome-webstore-upload-cli upload --source passping-extension-build/passping-ext-build.zip
+        run: npx chrome-webstore-upload-cli upload --source passping-ext-build.zip
         env:
             CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
             CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
