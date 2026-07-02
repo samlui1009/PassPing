@@ -2,9 +2,13 @@
 ## What is PassPing?
 <p>PassPing is a Google Chrome extension project, which helps remind post-secondary students living within the Greater Vancouver Area to load their monthly U-Passes onto their compass cards for each month. No more late reloads, missing bus passes or extra fees to be paid!</P>
 
+<br>
+
 <div align="center">
     <img src="project-assets\passping-home.png" width="350px">
 </div>
+
+<br>
 
 ## Inspiration behind Project
 <p>As a current post-secondary student, I am a huge fan of having a discounted transit pass. I love being able to travel at a lower price across the Greater Vancouver area as much as I want at a much lower price. That being said, having to remember <i>when</i> to load the bus pass prior to the start of the next month is often a frustrating experience. Personally, I attribute that mainly to my own forgetfulness. As such, I wanted to create a simplistic, lightweight yet visually appealing solution that can provide U-Pass reload reminders to the user, prompting them to load it when required. I believe that this would not only benefit myself, but other future students as well.</p>
@@ -65,12 +69,12 @@ corresponding message. Code implementation for PassPings' reload notification ca
 3 additional parameters that were included here:</p>
 
 <ul>
-<li>priority:  Can take on any value in between the range of -2 to 2. This controls the visibility duration and system tray placement of 
+<li><code>priority</code>:  Can take on any value in between the range of -2 to 2. This controls the visibility duration and system tray placement of 
 the notification on a users' device. Here, the value was set to 2.</li>
-<li>requireInteraction:  This enforces the notification pop-up to persist on the screen until the user clicks or dismisses it. 
+<li><code>requireInteraction</code>:  This enforces the notification pop-up to persist on the screen until the user clicks or dismisses it. 
 By default, it is set to false, which indicates that the notification will be automatically dismissed after a short timeframe. When set to 
 true, it prevents the auto-dismissal of the notification. Since there is a guard in place to silence notifications and the background service worker only fires at 3-hour increments, this parameter was set to true.</li>
-<li>silent:  This parameter, when set to True, mutes the alert without playing the system notification sound. In this case, silent was set to 
+<li><code>silent</code>:  This parameter, when set to True, mutes the alert without playing the system notification sound. In this case, silent was set to 
 false.</li>
 </ul>
 
@@ -122,11 +126,15 @@ false.</li>
 <p>The reminder date and time have default starting settings of the 16th and 9:00 AM, respectively. The 16th was selectively chosen, given that Translink U-Pass reloads only start then.</p> 
 <p>A setting for the users' preferred reminder frequency was also recently implemented. It allows users to set a reminder frequency as an integer - one, meaning that notifications are sent once every hour, capped to a maximum value of 4 (1 notification sent every 4 hours).</p>
 
+<br>
+
 <p align="center">
     <img src="project-assets\passping-settings.png" width="350px;">
 </p>
 
-<p>However, these values can be edited very easily with different valid inputs. See below for an example. You can then click the Save Settings button at the very bottom of the page to save these, with a transient confirmation message that displays a confirmation message that disappears thereafter.</p>
+<br>
+
+<p>However, these values can be edited very easily with different valid inputs. You can then click the Save Settings button at the very bottom of the page to save these, with a transient confirmation message that displays a confirmation message that disappears thereafter.</p>
 
 ## Future Improvements 
 <ol>
