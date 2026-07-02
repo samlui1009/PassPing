@@ -4,9 +4,9 @@ on:
     workflow_dispatch: 
     push:
         branches: ["main"]
-        tags:
-            - 'v*.*.*'
         paths-ignore:
+            - '*.png'
+            - '*.jpg'
             - 'README.md'
             - '.github/workflows/ci-cd-pipeline.yml'
             - 'passping-extension/build/manifest.json'
@@ -61,13 +61,21 @@ jobs:
         run:
             working-directory: ./passping-extension
 
-    # TODO:  We need to check the path to the artifact.
     steps:
-      - name:  Download PassPing artifact 
+      - name: Download PassPing artifact
         uses:  actions/download-artifact@v4
         with:
             name: passping-extension-build
     
+      - name: Verify PassPing artifact existence 
+        run: |
+            if [ ! -f passping-ext-build.zip ]; then
+                echo "Error: PassPing artifact not found."
+                exit 1
+            fi
+
+            echo "PassPing artifact existence verified. Proceeding to deployment."
+
       - name:  Google Chrome Web Store Upload
         run: npx chrome-webstore-upload-cli upload --source ../passping-extension-build/passping-ext-build.zip
         env:
