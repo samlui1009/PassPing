@@ -28,7 +28,7 @@ Using it on PassPing appeared the least inconsequential.</p>
         </tr>
         <tr>
             <td>runs-on</td>
-            <td>This defines the machine (runner) that executes the jobs in your pipeline. <code>Ubuntu-latest</code> is the most common Linux environment.Read <a href="https://docs.github.com/en/actions/concepts/runners/github-hosted-runners">here</a> for more detailed information.</td>
+            <td>This defines the machine (runner) that executes the jobs in your pipeline. <code>Ubuntu-latest</code> is the most common Linux environment. Read <a href="https://docs.github.com/en/actions/concepts/runners/github-hosted-runners">here</a> for more detailed information.</td>
         </tr>
         <tr>
             <td>jobs</td>
@@ -45,17 +45,19 @@ Using it on PassPing appeared the least inconsequential.</p>
 <p>Note that some steps include the <code>uses</code> keyword (I.e., See: "Checkout repository" and "Setup Node.js"). These reference reusable GitHub Actions code snippets that can be called to perform specific, repeating tasks.</p>
 <p>The 3 used in this pipeline include:
 <ul>
-    <li>actions/checkout:  Pulls the target code repository to the runner to execute tasks;</li>
-    <li>actions/setup-node: Downloads, caches and configures a Node.js environment within your GitHub Actions pipeline. You can also include the cache-dependency-path and specify the relative path to your package lockfiles, and,</li>
-    <li>actions/upload-artifact: Allows file persistence, ensuring that your artifact is available for download in the Summary tab of your GitHub Actions workflow. You can also set the number of retention days, which dictates the duration that your artifact will be available before it is consequently destroyed.</li>
+    <li><code>actions/checkout</code>:  Pulls the target code repository to the runner to execute tasks;</li>
+    <li><code>actions/setup-node</code>: Downloads, caches and configures a Node.js environment within your GitHub Actions pipeline. You can also include the cache-dependency-path and specify the relative path to your package lockfiles, and,</li>
+    <li><code>actions/upload-artifact</code>: Allows file persistence, ensuring that your artifact is available for download in the Summary tab of your GitHub Actions workflow. You can also set the number of retention days, which dictates the duration that your artifact will be available before it is consequently destroyed.</li>
 </ul>
 </p>
 
 ### Setting up Continuous Deployment Using <code>chrome-webstore-upload-cli</code>
-<p>Work in progress.</p>
+<p>I wanted an easy, surefire way to upload my zipped artifact into the Google Chrome Extension webstore without the need for me to manually upload the file. After some Google searching, I found an npm package, <code>chrome-webstore-upload-cli</code>. Documentation
+is provided via <a href="https://www.npmjs.com/package/chrome-webstore-upload-cli">this link</a> on how to use it. There was more set-up involved on how to generate the relevant Google API keys. <a href="https://github.com/fregante/chrome-webstore-upload-keys">This guide</a> provides thorough, step-by-step instructions on how to do so.</p>
 
 ## References & Resources 
 <ol>
     <li>https://docs.github.com/en/actions</li>
     <li>https://github.com/orgs/community/discussions/26174</li>
+    <li>https://github.com/fregante/chrome-webstore-upload-keys</li>
 </ol>

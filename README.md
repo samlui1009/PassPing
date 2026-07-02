@@ -173,7 +173,7 @@ false.</li>
 
 ## References
 
-### Google Chrome Extensions (As a Whole!)
+### Google Chrome Extensions (As a Whole)
 <ol>
     <li>https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world</li>
     <li>https://medium.com/@jonnykalambay/anatomy-of-a-chrome-extension-54b9dd019825</li>
@@ -198,4 +198,10 @@ false.</li>
     <li>https://www.youtube.com/watch?v=XBZ3Hhx-tS8&t=13s</li>
     <li>https://developer.chrome.com/docs/webstore/publish</li>
 </ol>
+
+### Extra Resources 
+<ol>
+    <li>https://semver.org/ - To provide understanding of semantic versioning.</li>
+</ol>
+
 
