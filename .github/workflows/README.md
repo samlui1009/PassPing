@@ -41,6 +41,8 @@ Using it on PassPing appeared the least inconsequential.</p>
     </tbody>
 </table>
 
+<p>What I learnt is that each job spins up their own "runner". When one job is fully executed and completed and another job is pending execution, GitHub Actions provides a new runner environment (Typically, a Virtual Machine). This means that any local files cannot be shared unless it is stated explicitly.</p>
+
 ### Actions
 <p>Note that some steps include the <code>uses</code> keyword (I.e., See: "Checkout repository" and "Setup Node.js"). These reference reusable GitHub Actions code snippets that can be called to perform specific, repeating tasks.</p>
 <p>The 3 used in this pipeline include:
@@ -52,12 +54,19 @@ Using it on PassPing appeared the least inconsequential.</p>
 </p>
 
 ### Setting up Continuous Deployment Using <code>chrome-webstore-upload-cli</code>
-<p>I wanted an easy, surefire way to upload my zipped artifact into the Google Chrome Extension webstore without the need for me to manually upload the file. After some Google searching, I found an npm package, <code>chrome-webstore-upload-cli</code>. Documentation
-is provided via <a href="https://www.npmjs.com/package/chrome-webstore-upload-cli">this link</a> on how to use it. There was more set-up involved on how to generate the relevant Google API keys. <a href="https://github.com/fregante/chrome-webstore-upload-keys">This guide</a> provides thorough, step-by-step instructions on how to do so.</p>
+<p>I wanted an easy, surefire way to upload my zipped artifact into the Google Chrome Extension webstore without the need for me to manually upload the file. After some Google searching, I found an npm package, <code>chrome-webstore-upload-cli</code>. Documentation is provided via <a href="https://www.npmjs.com/package/chrome-webstore-upload-cli">this link</a> on how to use it. There was more set-up involved on how to generate the relevant Google API keys. <a href="https://github.com/fregante/chrome-webstore-upload-keys">This guide</a> provides thorough, step-by-step instructions on how to do so. However, you will need your Google client ID, client secret, refresh token, your exclusive publisher ID and your extensions' ID.</p>
+
+<p><b>Tl;dr</b> for the deployment job: Since the "build" runner has completed execution of all tasks and its corresponding Virtual Machine is then torn down, GitHub provisions a new Virtual Machine for deployment. In the "build" job, I specified a task to upload the ZIP file as an artifact into the GitHub artifact storage. This allows the corresponding ZIP file to persist in the workspaces' root directory.</p>
+
+#### The Usage of Secrets 
+<p>At first, I attempted to store the relevant environment variables into a local .env file. However, I soon realized that this was, accordingly, not an optimal solution. Simply put, GitHub Actions pipelines are not able to read secrets from local files as they do not exist on the remote servers/VMs in which the pipelines are designated to execute.</p>
+
+<p>Therefore, the alternative was to simply store these secrets into the designated GitHub pipeline settings. This permits value injection into the runners' memory at runtime.</p>
 
 ## References & Resources 
 <ol>
     <li>https://docs.github.com/en/actions</li>
     <li>https://github.com/orgs/community/discussions/26174</li>
     <li>https://github.com/fregante/chrome-webstore-upload-keys</li>
+    <li>https://stackoverflow.com/questions/60176044/how-do-i-use-an-env-file-with-github-actions</li>
 </ol>
