@@ -62,6 +62,12 @@ jobs:
             working-directory: ./passping-extension
 
     steps:
+      - name: Find downloaded ZIP
+        run: |
+            pwd
+            ls -la
+            find .. -name "*.zip"
+      
       - name: Download PassPing artifact
         uses:  actions/download-artifact@v4
         with:
