@@ -150,10 +150,10 @@ false.</li>
 </ol>
 
 ## How to Use
-<p>As of <b>July 2026</b>, PassPing is now available on the Chrome Extension store for download! :D</p>
+<p>As of <b>October 2026</b>, PassPing is now available on the Chrome Extension store for download! :D</p>
 <p>To use, simply install the extension. You can find it by searching PassPing in the Chrome store search bar, or click here to directly access the extension: </p>
 
-<b><p>Download link coming soon!</p></b>
+<b><p>Download link: https://chromewebstore.google.com/detail/passping/lpfgbbgaihopegchkjchogkcihdkgihf</p></b>
 
 <p>Please note that you need to enable notifications on your local machines' system in order to trigger the "toast" popup.</p>
 
